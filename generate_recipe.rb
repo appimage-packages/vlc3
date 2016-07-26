@@ -26,5 +26,8 @@ class Recipe
             @name = name
         end
     end
+if File.exist?('Recipe*')
+    FileUtils.rm('Recipe*')
+end
 `wget https://github.com/appimage-packages/AppImages/tree/master/recipes/vlc3/Recipe`
 end
