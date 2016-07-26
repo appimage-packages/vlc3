@@ -23,7 +23,7 @@
 # Make sure to delete the cloud instance after building in order not to incur additional cost
 
 sudo apt-get update && apt-get upgrade
-sudo apt-get -y install git build-essential autopoint cvs pkg-config autoconf libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
+sudo apt-get -y install git build-essential pkg-config autoconf libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
 # Don't use ubuntu libtool as it is too old.
 
 
@@ -68,8 +68,6 @@ cd ../..
 # Bootstrap
 ########################################################################
 
-./bootstrap
-
 # Did I get "Successfully bootstrapped"?
 # Only then proceed.
 
@@ -95,7 +93,7 @@ cd gettext-0.19.7
 make -j 8 && make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 
-
+./bootstrap
 ########################################################################
 # The "Contrib" method.
 # If the libraries are not provided by your distribution,
