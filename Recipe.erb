@@ -23,23 +23,13 @@
 # Make sure to delete the cloud instance after building in order not to incur additional cost
 
 sudo apt-get update
-sudo apt-get -y install git build-essential pkg-config autoconf libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
+sudo apt-get -y install git build-essential gettext pkg-config autoconf libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
 # Don't use ubuntu libtool
 
 ########################################################################
 # Install newer versions of some build-time dependencies
 # "Contrib" does not seem to build these for me, should it?
 ########################################################################
-
-# Workaround for:
-# Getting warning about outdated gettext
-# Update gettext to 0.19.6
-cd /usr/src
-wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.6.tar.gz
-tar xvf gettext-0.19.6.tar.gz
-cd gettext-0.19.6
-./configure --prefix=/usr --libdir=/usr/lib64
-make -j 16 && make install
 
 ########################################################################
 # Get VLC
@@ -64,7 +54,7 @@ export PATH=/vlc/extras/tools/build/bin:$PATH
 export LD_LIBRARY_PATH=/vlc/extras/tools/build/bin:$LD_LIBRARY_PATH
 cd extras/tools/
 ./bootstrap
-make -j 16
+make -j 8
 # make
 # make
 # make
@@ -97,8 +87,6 @@ cd contrib
 mkdir native
 cd native
 
-export CFLAGS=-fPIC # Does this help against "relocation R_X86_64_32S against `zcalloc'"?
-
 ../bootstrap
 
 ########################################################################
@@ -109,18 +97,8 @@ export CFLAGS=-fPIC # Does this help against "relocation R_X86_64_32S against `z
 # "vlc aliases : cvlc rvlc qvlc svlc"
 # Don't proceed if qvlc is not listed.
 
-make -j 16
+make -j 8
 
-
-# Workaround needed for:
-# /usr/include/c++/4.6/bits/atomic_2.h:458:7: note: C++0x 'constexpr' only available with -std=c++0x or -std=gnu++0x
-# In file included from ../include/vlc_atomic.h:221:0,
-#                  from demux/adaptive/playlist/../plumbing/CommandsQueue.hpp:25,
-#                  from demux/adaptive/playlist/../plumbing/FakeESOut.hpp:23,
-#                  from demux/adaptive/playlist/../Streams.hpp:30,
-#                  from demux/adaptive/playlist/BasePeriod.cpp:31:
-# /usr/include/c++/4.6/atomic:68:5: error: 'constexpr' does not name a type
-# /usr/include/c++/4.6/atomic:68:5: note: C++0x 'constexpr' only available with -std=c++0x or -std=gnu++0x
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get --yes install gcc-6.1 g++-6.1
@@ -132,9 +110,9 @@ cd ../..
 # Does not find protoc
 export PATH=/vlc/extras/tools/build/bin/:$PATH
 
-BUILDCC="/usr/bin/gcc -std=gnu99" ./configure --disable bluray --prefix=/usr
+BUILDCC="/usr/bin/gcc ./configure --disable bluray --prefix=/usr
 
-make -j 16
+make -j 8
 
 APP=VLC
 make install DESTDIR=/$APP/$APP.AppDir
