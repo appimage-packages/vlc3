@@ -29,5 +29,5 @@ class Recipe
     !Dir.glob('Recipe.*').empty?
     File.delete('Recipe')
     File.delete(*Dir.glob('Recipe.*'))
-      `wget https://github.com/appimage-packages/AppImages/tree/master/recipes/vlc3/Recipe`
+      `wget https://raw.githubusercontent.com/probonopd/AppImages/master/recipes/vlc3/Recipe`
 end
