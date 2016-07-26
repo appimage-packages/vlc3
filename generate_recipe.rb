@@ -27,6 +27,6 @@ class Recipe
         end
     end
     !Dir.glob('Recipe.*').empty?
-      File.rm('Recipe.*')
+    File.delete(*Dir.glob('Recipe.*'))
       `wget https://github.com/appimage-packages/AppImages/tree/master/recipes/vlc3/Recipe`
 end
