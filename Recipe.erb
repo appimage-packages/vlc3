@@ -26,6 +26,17 @@ sudo apt-get update && apt-get upgrade
 sudo apt-get -y install git build-essential pkg-config autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
 # Don't use ubuntu libtool as it is too old.
 
+# Workaround for
+# configure.ac:133: error: possibly undefined macro: AM_ICONV
+# autoreconf: /vlc/extras/tools/build/bin/autoconf failed with exit status: 1
+# make: *** [.cddb] Error 1
+
+cd /usr/src
+wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+tar -xvzf libiconv-1.14.tar.gz
+cd libiconv-1.14
+./configure --prefix=/usr
+make -j 8 && make install
 
 ########################################################################
 # Get VLC
@@ -81,16 +92,6 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 # Install newer versions of some build-time dependencies
 # "Contrib" does not seem to build these for me, should it?
 ########################################################################
-#
-#
-#
-#
-cd /usr/src
-wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-tar -xvzf libiconv-1.14.tar.gz
-cd libiconv-1.14
-./configure --prefix=/usr
-make -j 8 && make install
 
 # Workaround for:
 # Getting warning about outdated gettext
@@ -133,7 +134,7 @@ cd ../..
 # Does not find protoc
 export PATH=/vlc/extras/tools/build/bin/:$PATH
 
-BUILDCC="/usr/bin/gcc ./configure --disable bluray --prefix=/usr
+BUILDCC="/usr/bin/gcc ./configure --disable bluray --disable-cddb --prefix=/usr
 
 make -j 8
 
