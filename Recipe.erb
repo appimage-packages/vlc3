@@ -22,10 +22,13 @@
 # bash -ex Recipe
 # Make sure to delete the cloud instance after building in order not to incur additional cost
 
-sudo apt-get update
+sudo apt-get update && apt-get upgrade
 sudo apt-get -y install git build-essential autopoint cvs pkg-config autoconf libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
-# Don't use ubuntu libtool
-
+# Don't use ubuntu libtool as it is too old.
+sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get --yes install gcc-6.1 g++-6.1
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6.1 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6.1
 ########################################################################
 # Install newer versions of some build-time dependencies
 # "Contrib" does not seem to build these for me, should it?
@@ -40,10 +43,7 @@ cd gettext-0.19.6
 ./configure --prefix=/usr --libdir=/usr/lib
 make -j 8 && make install
 
-sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get --yes install gcc-6.1 g++-6.1
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6.1 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6.1
+
 
 ########################################################################
 # Get VLC
