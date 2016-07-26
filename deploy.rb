@@ -26,5 +26,5 @@ require 'fileutils'
 
 builder = CI.new
 builder.run = [CI::Build.new()]
-builder.cmd = %w[bash -ex /in/Recipe]
+builder.cmd = %w[bash -ex /in/Recipe ; apt-get clean ; rm -rf /usr/src ; rm -rf /out ; rm -rf /VLC/VLC.AppDir ; rm -rf /VLC/vlc-*.tar.xz]
 builder.create_container
