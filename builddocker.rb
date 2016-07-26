@@ -52,7 +52,7 @@ class CI
    def create_container
         init_logging
         @c = Docker::Container.create(
-            'Image' => 'ubuntu:12.04.5',
+            'Image' => 'sgclark/trusty-minimal',
             'Cmd' => @cmd,
             'Volumes' => {
               '/in' => {},
