@@ -1,2 +1,2 @@
-# vlc3
-Appimage for vlc3
+# appimage-xdgurl
+Appimage for xdgurl
