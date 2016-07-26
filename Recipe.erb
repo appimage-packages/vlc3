@@ -81,6 +81,17 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 # Install newer versions of some build-time dependencies
 # "Contrib" does not seem to build these for me, should it?
 ########################################################################
+#
+#
+#
+#
+cd /usr/src
+wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+tar -xvzf libiconv-1.14.tar.gz
+cd libiconv-1.14
+./configure --prefix=/usr
+make -j 8 && make install
+
 # Workaround for:
 # Getting warning about outdated gettext
 # Update gettext to 0.19.6
