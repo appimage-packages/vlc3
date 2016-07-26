@@ -37,8 +37,13 @@ cd /usr/src
 wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.6.tar.gz
 tar xvf gettext-0.19.6.tar.gz
 cd gettext-0.19.6
-./configure --prefix=/usr --libdir=/usr/lib64
+./configure --prefix=/usr --libdir=/usr/lib
 make -j 8 && make install
+
+sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get --yes install gcc-6.1 g++-6.1
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6.1 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6.1
 
 ########################################################################
 # Get VLC
@@ -107,11 +112,6 @@ cd native
 # Don't proceed if qvlc is not listed.
 
 make -j 8
-
-sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get --yes install gcc-6.1 g++-6.1
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6.1 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6.1
 
 cd ../..
 
