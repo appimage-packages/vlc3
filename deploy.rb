@@ -20,12 +20,11 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 
-#require_relative 'generate_recipe.rb'
+require_relative 'generate_recipe.rb'
 require_relative 'builddocker.rb'
 require 'fileutils'
 
-#builder = CI.new
-#builder.run = [CI::Build.new()]
-`wget https://github.com/appimage-packages/AppImages/tree/master/recipes/vlc3/Recipe`
+builder = CI.new
+builder.run = [CI::Build.new()]
 builder.cmd = %w[bash -ex /in/Recipe]
 builder.create_container
