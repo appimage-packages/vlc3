@@ -26,21 +26,6 @@ sudo apt-get update && apt-get upgrade
 sudo apt-get -y install git build-essential autopoint cvs pkg-config autoconf libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev
 # Don't use ubuntu libtool as it is too old.
 
-########################################################################
-# Install newer versions of some build-time dependencies
-# "Contrib" does not seem to build these for me, should it?
-########################################################################
-# Workaround for:
-# Getting warning about outdated gettext
-# Update gettext to 0.19.6
-cd /usr/src
-wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.6.tar.gz
-tar xvf gettext-0.19.6.tar.gz
-cd gettext-0.19.6
-./configure --prefix=/usr --libdir=/usr/lib
-make -j 8 && make install
-
-
 
 ########################################################################
 # Get VLC
@@ -88,15 +73,34 @@ cd ../..
 # Did I get "Successfully bootstrapped"?
 # Only then proceed.
 
+## Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
+sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get --yes install  gcc-6 g++-6
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
+
+########################################################################
+# Install newer versions of some build-time dependencies
+# "Contrib" does not seem to build these for me, should it?
+########################################################################
+# Workaround for:
+# Getting warning about outdated gettext
+# Update gettext to 0.19.6
+cd /usr/src
+wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
+tar xvf gettext-0.19.7.tar.gz
+cd gettext-0.19.7
+./configure --prefix=/usr    \
+            --disable-static
+make -j 8 && make install
+chmod -v 0755 /usr/lib/preloadable_libintl.so
+
+
 ########################################################################
 # The "Contrib" method.
 # If the libraries are not provided by your distribution,
 # you may be better off linking VLC with them statically.
 ########################################################################
-sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get --yes install  gcc-6 g++-6
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 cd contrib
 mkdir native
 cd native
