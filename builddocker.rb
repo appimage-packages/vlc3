@@ -52,7 +52,7 @@ class CI
    def create_container
         init_logging
         @c = Docker::Container.create(
-            'Image' => 'ubuntu:12.04.5', 
+            'Image' => 'ubuntu:12.04.5',
             'Cmd' => @cmd,
             'Volumes' => {
               '/in' => {},
@@ -67,8 +67,8 @@ class CI
                 STDOUT.flush
             end
         end
-        @c.start('Binds' => ["/home/jenkins/workspace/appimage-xdgurl/:/in",
-                             "/home/jenkins/workspace/appimage-xdgurl/out:/out"])
+        @c.start('Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
+                             "/home/jenkins/workspace/appimage-vlc3/out:/out"])
         ret = @c.wait
         status_code = ret.fetch('StatusCode', 1)
         raise "Bad return #{ret}" if status_code != 0
