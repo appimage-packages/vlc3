@@ -32,12 +32,12 @@ libgtk-3-dev libiconv-hook1 libiconv-hook-dev xutils-dev libpthread-stubs0-dev
 # autoreconf: /vlc/extras/tools/build/bin/autoconf failed with exit status: 1
 # make: *** [.cddb] Error 1 (not working)
 
-cd /usr/src
-wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-tar -xvzf libiconv-1.14.tar.gz
-cd libiconv-1.14
-./configure --prefix=/usr
-make -j 8 && make install
+#cd /usr/src
+#wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
+#tar -xvzf libiconv-1.14.tar.gz
+#cd libiconv-1.14
+#./configure --prefix=/usr
+#make -j 8 && make install
 
 # Workaround for
 # autoreconf: running: automake --add-missing --copy --force-missing
