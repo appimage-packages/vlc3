@@ -118,14 +118,14 @@ cd ../..
 #chmod -v 0755 /usr/lib/preloadable_libintl.so
 #cd /vlc
 
-./bootstrap
+
 ########################################################################
 # The "Contrib" method.
 # If the libraries are not provided by your distribution,
 # you may be better off linking VLC with them statically.
 ########################################################################
-export PATH=/vlc/extras/tools/build/bin/:/vlc/contrib/x86_64-linux-gnu/bin/:$PATH
-export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu/lib/:$LD_LIBRARY_PATH
+export PATH=/vlc/extras/tools/build/bin/:/vlc/contrib/x86_64-linux-gnu/bin:$PATH
+export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu/lib:$LD_LIBRARY_PATH
 cd contrib
 mkdir native
 cd native
@@ -148,12 +148,7 @@ sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
-# Workaround for:
-# Does not find protoc
-export PATH=/vlc/extras/tools/build/bin/:/vlc/contribx86_64-linux-gnu/bin/$PATH
-export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contribx86_64-linux-gnu/lib/$LD_LIBRARY_PATH
-
-BUILDCC="/usr/bin/gcc ./configure --disable bluray --disable-cddb --prefix=/usr
+./bootstrap
 
 make -j 8
 
