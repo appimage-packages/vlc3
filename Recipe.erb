@@ -108,15 +108,15 @@ cd ../..
 # Workaround for:
 # Getting warning about outdated gettext
 # Update gettext to 0.19.6
-#cd /usr/src
-#wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
-#tar xvf gettext-0.19.7.tar.gz
-#cd gettext-0.19.7
-#./configure --prefix=/usr    \
-#            --disable-static
-#make -j 8 && make install
-#chmod -v 0755 /usr/lib/preloadable_libintl.so
-#cd /vlc
+cd /usr/src
+wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
+tar xvf gettext-0.19.7.tar.gz
+cd gettext-0.19.7
+./configure --prefix=/usr    \
+            --disable-static
+make -j 8 && make install
+chmod -v 0755 /usr/lib/preloadable_libintl.so
+cd /vlc
 
 
 ########################################################################
@@ -129,10 +129,6 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-gettext
-make -j 8
-
-cd ../..
 ../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-cddb --enable-tiff
 
 ########################################################################
