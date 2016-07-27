@@ -37,7 +37,7 @@ libgtk-3-dev libiconv-hook1 libiconv-hook-dev
 #tar -xvzf libiconv-1.14.tar.gz
 #cd libiconv-1.14
 #./configure --prefix=/usr
-#make -j 8 && make install 
+#make -j 8 && make install
 
 ########################################################################
 # Get VLC
@@ -97,7 +97,6 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 # Workaround for:
 # Getting warning about outdated gettext
 # Update gettext to 0.19.6
-mkdir /usr/src
 cd /usr/src
 wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
 tar xvf gettext-0.19.7.tar.gz
