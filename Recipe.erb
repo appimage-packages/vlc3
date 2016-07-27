@@ -30,7 +30,7 @@ libgtk-3-dev libiconv-hook1 libiconv-hook-dev
 # Workaround for
 # configure.ac:133: error: possibly undefined macro: AM_ICONV
 # autoreconf: /vlc/extras/tools/build/bin/autoconf failed with exit status: 1
-# make: *** [.cddb] Error 1
+# make: *** [.cddb] Error 1 (not working)
 
 #cd /usr/src
 #wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
@@ -106,7 +106,7 @@ cd gettext-0.19.7
 make -j 8 && make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 cd /vlc
-sed -i -e 's|PKGS_DISABLE := |PKGS_DISABLE := bluray caca cddb|g' config.mak
+
 ./bootstrap
 ########################################################################
 # The "Contrib" method.
@@ -118,7 +118,7 @@ mkdir native
 cd native
 
 ../bootstrap
-
+sed -i -e 's|PKGS_DISABLE := |PKGS_DISABLE := bluray caca cddb|g' config.mak
 ########################################################################
 # Build VLC itself
 ########################################################################
