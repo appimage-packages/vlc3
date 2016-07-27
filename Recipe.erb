@@ -130,6 +130,9 @@ cd contrib
 mkdir native
 cd native
 ../bootstrap --enable-gettext
+make -j 8
+
+cd ../..
 ../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-cddb --enable-tiff
 
 ########################################################################
