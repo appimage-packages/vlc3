@@ -97,6 +97,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 # Workaround for:
 # Getting warning about outdated gettext
 # Update gettext to 0.19.6
+mkdir /usr/src
 cd /usr/src
 wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
 tar xvf gettext-0.19.7.tar.gz
@@ -106,7 +107,7 @@ cd gettext-0.19.7
 make -j 8 && make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 cd /vlc
-
+sed -i -e 's|PKGS_DISABLE := |PKGS_DISABLE := bluray caca cddb|g' config.mak
 ./bootstrap
 ########################################################################
 # The "Contrib" method.
