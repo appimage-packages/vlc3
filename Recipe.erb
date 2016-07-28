@@ -129,7 +129,7 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb
+../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb
 
 ########################################################################
 # Build VLC itself
@@ -166,6 +166,13 @@ sed -i "s/pthread-stubs//" configure &&
 make
 make install
 
+cd /usr/src
+wget https://sourceforge.net/projects/libcddb/files/libcddb/1.3.2/libcddb-1.3.2.tar.bz2
+tar -jxvf libcddb-1.3.2.tar.bz2
+cd libcddb-1.3.2
+./configure --prefix=/usr
+make -j8
+make install
 
 ## Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
