@@ -27,7 +27,7 @@ sudo apt-get -y install git build-essential pkg-config autoconf cvs libxcb-shm0-
 libgtk-3-dev xutils-dev libasound2-dev libpulse-dev
 
 # Don't use ubuntu libtool as it is too old.
-export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:$PKG_CONFIG_PATH
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 # Workaround for
 # configure.ac:133: error: possibly undefined macro: AM_ICONV
 # autoreconf: /vlc/extras/tools/build/bin/autoconf failed with exit status: 1
@@ -157,12 +157,10 @@ cd /usr/src
 wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
 tar -jxvf libxcb-1.12.tar.bz2
 cd libxcb-1.12
-sed -i "s/pthread-stubs//" configure &&
-
+sed -i "s/pthread-stubs//"
 ./configure --prefix=/usr \
             --enable-xinput   \
-            --without-doxygen \
-            --docdir='${datadir}'/doc/libxcb-1.12 &&
+            --without-doxygen &&
 make
 make install
 
