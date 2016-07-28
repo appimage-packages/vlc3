@@ -23,8 +23,8 @@
 # Make sure to delete the cloud instance after building in order not to incur additional cost
 
 sudo apt-get update && apt-get upgrade
-sudo apt-get -y install git build-essential pkg-config autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev libxcb1-dev \
-libgtk-3-dev libiconv-hook1 libiconv-hook-dev xutils-dev libxcb1-dev
+sudo apt-get -y install git build-essential pkg-config autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
+libgtk-3-dev xutils-dev
 
 # Don't use ubuntu libtool as it is too old.
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:$PKG_CONFIG_PATH
@@ -129,7 +129,7 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-cddb --enable-tiff --disable-xcb
+../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb
 
 ########################################################################
 # Build VLC itself
@@ -159,11 +159,13 @@ tar -jxvf libxcb-1.12.tar.bz2
 cd libxcb-1.12
 sed -i "s/pthread-stubs//" configure &&
 
-./configure --enable-xinput   \
+./configure --prefix=/usr \
+            --enable-xinput   \
             --without-doxygen \
             --docdir='${datadir}'/doc/libxcb-1.12 &&
 make
 make install
+
 
 ## Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
@@ -172,7 +174,7 @@ sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 cd /vlc
 ./bootstrap
-BUILDCC="/usr/bin/gcc -std=gnu99" ./configure --disable-chromaprint --disable-ncurses --disable-cddb --prefix=/usr
+BUILDCC="/usr/bin/gcc ./configure --disable-chromaprint --disable-ncurses --prefix=/usr
 
 make -j 8
 
