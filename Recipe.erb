@@ -27,7 +27,7 @@ sudo apt-get -y install git build-essential pkg-config autoconf cvs libxcb-shm0-
 libgtk-3-dev libiconv-hook1 libiconv-hook-dev xutils-dev libxcb1-dev
 
 # Don't use ubuntu libtool as it is too old.
-
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 # Workaround for
 # configure.ac:133: error: possibly undefined macro: AM_ICONV
 # autoreconf: /vlc/extras/tools/build/bin/autoconf failed with exit status: 1
@@ -74,7 +74,7 @@ cd vlc
 # 	requested host name `cmake.org'.
 # To connect to cmake.org insecurely, use `--no-check-certificate'.
 echo "check_certificate = off" > $HOME/.wgetrc
-export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig
+
 export PATH=/vlc/extras/tools/build/bin:$PATH
 export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:$LD_LIBRARY_PATH
 cd extras/tools/
