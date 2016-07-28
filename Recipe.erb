@@ -146,6 +146,14 @@ cd ../..
 # I cannot seem to get contribs to be useful as it builds in the wrong order and thus xcb fails.
 # build from source.
 cd /usr/src
+wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
+tar -jxvf xcb-proto-1.12.tar.bz2
+cd xcb-proto-1.12
+./configure
+make -j8
+make install
+
+cd /usr/src
 wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
 tar -jxvf libxcb-1.12.tar.bz2
 cd libxcb-1.12
