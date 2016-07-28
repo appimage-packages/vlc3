@@ -142,6 +142,21 @@ cd native
 make -j 8
 
 cd ../..
+
+# I cannot seem to get contribs to be useful as it builds in the wrong order and thus xcb fails.
+# build from source.
+cd /usr/src
+wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
+tar -jxvf libxcb-1.12.tar.bz2
+cd libxcb-1.12
+sed -i "s/pthread-stubs//" configure &&
+
+./configure --enable-xinput   \
+            --without-doxygen \
+            --docdir='${datadir}'/doc/libxcb-1.12 &&
+make
+make install
+
 ## Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
