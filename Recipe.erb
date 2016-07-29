@@ -203,9 +203,9 @@ cp /usr/share/icons/hicolor/128x128/apps/vlc.png .
 
 get_apprun
 
-cp /usr/share/applications/vlc.desktop .
+find . -name "$APP.desktop" -exec cp {} . \
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
-
+cat vlc.desktop
 rm -rf /usr/share/icons/hicolor/48x48/
 
 mkdir -p ./usr/lib/qt5
