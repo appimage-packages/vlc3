@@ -181,7 +181,7 @@ cd /vlc
 
 make -j 8
 
-APP=vlc
+APP=VLC
 make install
 
 ########################################################################
@@ -199,14 +199,14 @@ cd $APP.AppDir
 
 export ARCH=x86_64
 
-cp usr/share/icons/hicolor/128x128/apps/vlc.png .
+cp /usr/share/icons/hicolor/128x128/apps/vlc.png .
 
 get_apprun
 
-cp ./usr/share/applications/vlc.desktop .
+cp /usr/share/applications/vlc.desktop .
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
 
-rm -rf usr/share/icons/hicolor/48x48/
+rm -rf /usr/share/icons/hicolor/48x48/
 
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
@@ -218,9 +218,9 @@ move_lib
 delete_blacklisted
 
 # We don't bundle the developer stuff
-rm -rf usr/include || true
-rm -rf usr/lib/cmake || true
-rm -rf usr/lib/pkgconfig || true
+rm -rf /usr/include || true
+rm -rf /usr/lib/cmake || true
+rm -rf /usr/lib/pkgconfig || true
 rm -rf rm -rf ./usr/share/doc/vlc/libvlc/ || true
 find /VLC/VLC.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
 strip usr/bin/* usr/lib/* usr/lib/vlc/plugins/*/* || true
