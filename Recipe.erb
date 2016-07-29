@@ -28,17 +28,7 @@ libgtk-3-dev xutils-dev libasound2-dev libpulse-dev
 
 # Don't use ubuntu libtool as it is too old.
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
-# Workaround for
-# configure.ac:133: error: possibly undefined macro: AM_ICONV
-# autoreconf: /vlc/extras/tools/build/bin/autoconf failed with exit status: 1
-# make: *** [.cddb] Error 1 (not working)
-
-#cd /usr/src
-#wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-#tar -xvzf libiconv-1.14.tar.gz
-#cd libiconv-1.14
-#./configure --prefix=/usr
-#make -j 8 && make install
+export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 
 # Workaround for
 # autoreconf: running: automake --add-missing --copy --force-missing
