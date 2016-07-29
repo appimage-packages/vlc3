@@ -181,7 +181,7 @@ cd /vlc
 
 make -j 8
 
-APP=VLC
+APP=vlc
 make install
 
 ########################################################################
@@ -189,7 +189,7 @@ make install
 # Now creating the AppDir
 ########################################################################
 
-LOWERAPP=${APP,,}
+mkdir -p $APP/$APP.AppDir
 cd /$APP/
 
 wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
