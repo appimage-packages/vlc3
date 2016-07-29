@@ -188,14 +188,10 @@ make install
 # Build complete
 # Now creating the AppDir
 ########################################################################
-
-mkdir -p /$APP/$APP.AppDir
-cd /$APP/
-
 wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
 . ./functions.sh
-
-cd $APP.AppDir
+mkdir -p /$APP/$APP.AppDir
+cd /$APP/$APP.AppDir
 
 export ARCH=x86_64
 
@@ -218,19 +214,18 @@ move_lib
 delete_blacklisted
 
 # We don't bundle the developer stuff
-rm -rf /usr/include || true
-rm -rf /usr/lib/cmake || true
-rm -rf /usr/lib/pkgconfig || true
+rm -rf usr/include || true
+rm -rf usr/lib/cmake || true
+rm -rf usr/lib/pkgconfig || true
 rm -rf rm -rf ./usr/share/doc/vlc/libvlc/ || true
 find /VLC/VLC.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
 strip usr/bin/* usr/lib/* usr/lib/vlc/plugins/*/* || true
+cd ..
 
 get_desktopintegration vlc
 
 GLIBC_NEEDED=$(find . -type f -executable -exec strings {} \; | grep ^GLIBC_2 | sed s/GLIBC_//g | sort --version-sort | uniq | tail -n 1)
 VERSION=3.0.0.git$(cat /vlc/src/revision.txt).glibc$GLIBC_NEEDED # FIXME
-
-cd ..
 
 ########################################################################
 # AppDir complete
