@@ -147,7 +147,7 @@ cd /usr/src
 wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
 tar -jxvf libxcb-1.12.tar.bz2
 cd libxcb-1.12
-sed -i "s/pthread-stubs//"
+sed -i "s/pthread-stubs//" configure
 ./configure --prefix=/usr \
             --enable-xinput   \
             --without-doxygen &&
