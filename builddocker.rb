@@ -58,8 +58,7 @@ class CI
         '/out' => {}
       },
       'HostConfig' => {
-        'CapAdd' => ["SYS_ADMIN"],
-        'Devices' => ["/dev/fuse"]
+        'Privileged' => true
       }
     )
     p @c.info
