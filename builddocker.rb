@@ -25,53 +25,56 @@ require 'logger'
 require 'logger/colors'
 
 class CI
-    class Build
-        def initialize()
-            @image = ''
-            @c = ''
-            @binds = ''
-        end
+  class Build
+    def initialize()
+      @image = ''
+      @c = ''
+      @binds = ''
     end
-    def init_logging
-        @log = Logger.new(STDERR)
+  end
+  def init_logging
+    @log = Logger.new(STDERR)
+    raise 'Could not initialize logger' if @log.nil?
 
-        raise 'Could not initialize logger' if @log.nil?
-
-        Thread.new do
-            # :nocov:
-            Docker::Event.stream { |event| @log.debug event }
-            # :nocov:
-        end
+    Thread.new do
+      # :nocov:
+      Docker::Event.stream { |event| @log.debug event }
+      # :nocov:
     end
-    attr_accessor :run
-    attr_accessor :cmd
+  end
+  attr_accessor :run
+  attr_accessor :cmd
 
-    Docker.options[:read_timeout] = 1 * 60 * 60 # 1 hour
-    Docker.options[:write_timeout] = 1 * 60 * 60 # 1 hour
+  Docker.options[:read_timeout] = 1 * 60 * 60 # 1 hour
+  Docker.options[:write_timeout] = 1 * 60 * 60 # 1 hour
 
-   def create_container
-        init_logging
-        @c = Docker::Container.create(
-            'Image' => 'sgclark/trusty-minimal',
-            'Cmd' => @cmd,
-            'Volumes' => {
-              '/in' => {},
-              '/out' => {}
-            }
-        )
-        p @c.info
-        @log.info 'creating debug thread'
-        Thread.new do
-            @c.attach do |_stream, chunk|
-                puts chunk
-                STDOUT.flush
-            end
-        end
-        @c.start('Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
+  def create_container
+    init_logging
+    @c = Docker::Container.create(
+      'Image' => 'sgclark/trusty-minimal',
+      'Cmd' => @cmd,
+      'Volumes' => {
+        '/in' => {},
+        '/out' => {}
+      },
+      'HostConfig' => {
+        'CapAdd' => ['SYS_ADMIN'],
+        'Devices' => ['/dev/fuse']
+      }
+    )
+    p @c.info
+    @log.info 'creating debug thread'
+    Thread.new do
+      @c.attach do |_stream, chunk|
+        puts chunk
+        STDOUT.flush
+      end
+    end
+    @c.start('Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
                              "/home/jenkins/workspace/appimage-vlc3/out:/out"])
-        ret = @c.wait
-        status_code = ret.fetch('StatusCode', 1)
-        raise "Bad return #{ret}" if status_code != 0
-        @c.stop!
-    end
+    ret = @c.wait
+    status_code = ret.fetch('StatusCode', 1)
+    raise "Bad return #{ret}" if status_code != 0
+    @c.stop!
+  end
 end
