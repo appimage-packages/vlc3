@@ -25,7 +25,7 @@
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
 libgtk-3-dev xutils-dev libgtk2.0-dev
-
+sudo su
 # Don't use ubuntu libtool as it is too old.
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
@@ -229,5 +229,6 @@ VERSION=3.0.0.git$(cat /vlc/src/revision.txt).glibc$GLIBC_NEEDED # FIXME
 # AppDir complete
 # Now packaging it as an AppImage
 ########################################################################
+chown -R jenkins.jenkins /$APP/$APP.AppDir
 sudo su jenkins
 generate_appimage
