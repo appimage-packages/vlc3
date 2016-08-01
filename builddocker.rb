@@ -56,7 +56,8 @@ class CI
       'Volumes' => {
         '/in' => {},
         '/out' => {},
-        '/lib/modules' => {}
+        '/lib/modules' => {},
+        '/tmp' => {}
       },
       'HostConfig' => {
         'Privileged' => true,
@@ -76,7 +77,8 @@ class CI
     end
     @c.start('Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
                              "/home/jenkins/workspace/appimage-vlc3/out:/out",
-                             "/lib/modules:/lib/modules"])
+                             "/lib/modules:/lib/modules",
+                             "/tmp:/tmp"])
     ret = @c.wait
     status_code = ret.fetch('StatusCode', 1)
     raise "Bad return #{ret}" if status_code != 0
