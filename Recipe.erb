@@ -201,10 +201,11 @@ get_apprun
 
 cp /usr/share/applications/vlc.desktop .
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
+sed -i s/Icon=vlc/Icon=vlc.png/g vlc.desktop
 cat vlc.desktop
 get_desktopintegration vlc
 rm -rf /usr/share/icons/hicolor/48x48/
-cd /$APP
+cd  /$APP/$APP.AppDir
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
 
@@ -230,5 +231,4 @@ VERSION=3.0.0.git$(cat /vlc/src/revision.txt).glibc$GLIBC_NEEDED # FIXME
 # Now packaging it as an AppImage
 ########################################################################
 chown -R jenkins.jenkins /$APP/$APP.AppDir
-sudo su jenkins
 generate_appimage
