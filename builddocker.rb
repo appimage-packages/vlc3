@@ -60,7 +60,8 @@ class CI
       },
       'HostConfig' => {
         'Privileged' => true,
-        'CapAdd' => ["ALL"]
+        'CapAdd' => ["ALL"],
+        'Devices' => ["/dev/fuse:/dev/fuse:mrw"]
       }
     )
     p @c.info
