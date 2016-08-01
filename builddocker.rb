@@ -61,7 +61,9 @@ class CI
       'HostConfig' => {
         'Privileged' => true,
         'CapAdd' => ["ALL"],
-        'Devices' => ["/dev/fuse:/dev/fuse:mrw"]
+        'Devices' => ['PathOnHost' => "/dev/fuse",
+                              'PathInContainer' => "/dev/fuse",
+                              'CgroupPermissions' => "mrw"]
       }
     )
     p @c.info
