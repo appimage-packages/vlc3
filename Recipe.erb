@@ -26,6 +26,8 @@ sudo apt-get update && apt-get -y upgrade
 sudo apt-get -y install git build-essential pkg-config autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
 libgtk-3-dev xutils-dev libfuse2 fuse
 
+sudo usermod -a -G fuse $USER
+
 # Don't use ubuntu libtool as it is too old.
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
