@@ -60,7 +60,7 @@ class CI
       },
       'HostConfig' => {
         'Privileged' => true,
-        'CapAdd' => [ALL]
+        'CapAdd' => ["ALL"]
       }
     )
     p @c.info
