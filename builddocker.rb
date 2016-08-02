@@ -60,7 +60,6 @@ class CI
         '/tmp' => {}
       },
       'HostConfig' => {
-        'Privileged' => true,
         'CapAdd' => ["ALL"],
         'Devices' => ['PathOnHost' => "/dev/fuse",
                               'PathInContainer' => "/dev/fuse",
@@ -75,7 +74,8 @@ class CI
         STDOUT.flush
       end
     end
-    @c.start('Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
+    @c.start( 'Privileged' => true,
+                    'Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
                              "/home/jenkins/workspace/appimage-vlc3/out:/out",
                              "/lib/modules:/lib/modules",
                              "/tmp:/tmp"])
