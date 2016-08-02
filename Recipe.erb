@@ -172,9 +172,9 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 # Build VLC itself
 ########################################################################
 cd /vlc
-RCC=/usr/bin/rcc-qt5
+
 ./bootstrap
- ./configure --disable-chromaprint --disable-bluray --enable-alsa=true \
+CFLAGS=-fPIC  RCC=/usr/bin/rcc-qt5 ./configure --disable-chromaprint --disable-bluray --enable-alsa=true \
 --prefix=/usr
 
 make -j 8
