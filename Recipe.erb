@@ -200,7 +200,7 @@ wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./func
 . ./functions.sh
 
 cd /
-get_apprun
+
 cp /usr/share/applications/vlc.desktop .
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
 sed -i -e "s|Icon=.*|Icon=vlc.png|g" vlc.desktop
@@ -213,6 +213,7 @@ export ARCH=x86_64
 APPDIR=VLC
 mkdir -p /$APPDIR/$APP.AppDir
 cd  /$APPDIR/$APP.AppDir
+get_apprun
 mv /vlc.* .
 mkdir -p ./usr/lib/qt5/; mv /usr/lib/x86_64-linux-gnu/qt5/plugins $_
 mkdir -p ./usr/share/vlc; mv /usr/share/vlc $_
