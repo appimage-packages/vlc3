@@ -145,8 +145,9 @@ make install
 
 #libcdio too old
 cd /usr/src
-git clone http://git.savannah.gnu.org/r/libcdio.git
-cd libcdio
+wget http://ftp.gnu.org/gnu/libcdio/libcdio-0.93.tar.bz2
+tar -jxvf libcdio-0.93.tar.bz2
+cd libcdio-0.93
 ./configure --prefix=/usr
 make -j8
 make install
