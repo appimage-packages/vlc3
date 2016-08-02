@@ -10,7 +10,9 @@
 # <j-b> don't build with Qt4, but qith qt5
 # <j-b> once this is done, we can retalk :0
 ########################################################################
-APP=vlc
+VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
+ARCH=$(arch)
+APP=<%= name %>
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
@@ -243,4 +245,5 @@ VERSION=3.0.0.git$(cat /vlc/src/revision.txt).glibc$GLIBC_NEEDED # FIXME
 # Now packaging it as an AppImage
 ########################################################################
 cd /$APPDIR
+rm /out/* || true
 generate_appimage
