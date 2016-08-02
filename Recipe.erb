@@ -214,19 +214,17 @@ APPDIR=VLC
 mkdir -p /$APPDIR/$APP.AppDir
 cd  /$APPDIR/$APP.AppDir
 mv /vlc.* .
-mkdir -p ./usr/lib/qt5
-cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
-mv /usr/share/vlc ./usr/share/vlc
-mv /usr/share/icons/hicolor ./usr/share/icons/hicolor
-mv /usr/share/applications/vlc.desktop ./usr/share/applications/vlc.desktop
+mkdir -p ./usr/lib/qt5/; mv /usr/lib/x86_64-linux-gnu/qt5/plugins $_
+mkdir -p ./usr/share/vlc; mv mv /usr/share/vlc $_
+mkdir -p ./usr/share/icons/hicolor; mv /usr/share/icons/hicolor $_
+mkdir -p ./usr/share/applications; mv /usr/share/applications $_
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 patch_usr
 copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
 move_lib
 delete_blacklisted
 
-mkdir -p ./usr/bin
-mv /usr/bin/vlc* ./usr/bin/
+mkdir -p ./usr/bin; mv /usr/bin/vlc* $_
 
 # We don't bundle the developer stuff
 rm -rf usr/include || true
