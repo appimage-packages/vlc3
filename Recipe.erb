@@ -10,25 +10,26 @@
 # <j-b> don't build with Qt4, but qith qt5
 # <j-b> once this is done, we can retalk :0
 ########################################################################
-VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
-ARCH=$(arch)
-APP=<%= name %>
-export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update && sudo apt-get -y upgrade
-sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
-libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev liblivemedia-dev libdc-dev libraw-dev libavc1394-dev \
-libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1 libfluidsynth-dev \
-libxcb-keysyms1-dev librsvg2-dev libcairo2-dev libsoxr-dev libqt5widgets5 libqt5core5a libqt5gui5 libvdpau-dev \
-python3-dev libsoxr-dev
-
-# Don't use ubuntu libtool as it is too old.
-
+## Set env variables
 #Needed to export all possible pkgconfig paths to prevent pkgconfig failures in tools and contribs.
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 # Build failures without this, putting at top for consistancy
 export CFLAGS=-fPIC
+VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
+ARCH=$(arch)
+APP=<%= name %>
+export DEBIAN_FRONTEND=noninteractive
 
+# Install what we can via packages
+sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
+libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev liblivemedia-dev libdc-dev libraw-dev libavc1394-dev \
+libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
+librsvg2-dev libcairo2-dev libsoxr-dev libqt5widgets5 libqt5core5a libqt5gui5 libvdpau-dev \
+python3-dev libsoxr-dev
+
+# Don't use ubuntu libtool as it is too old.
 # Workaround for
 # autoreconf: running: automake --add-missing --copy --force-missing
 # configure.ac:7: error: must install xorg-macros 1.12 or later before running autoconf/autogen
@@ -121,7 +122,6 @@ make -j 8
 cd ../..
 
 ########################################################################
-# The "Contrib" method.
 # These are the failed contribs done manually
 # Most of them failed due to depending on another contrib and there was no method
 # that I could find to force build order.
