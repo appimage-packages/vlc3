@@ -216,7 +216,9 @@ cd  /$APPDIR/$APP.AppDir
 mv /vlc.* .
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
-cp -r /usr/share/ ./usr/share
+mv /usr/share/vlc ./usr/share/vlc
+mv /usr/share/icons/hicolor ./usr/share/icons/hicolor
+mv /usr/share/applications/vlc.desktop ./usr/share/applications/vlc.desktop
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 patch_usr
 copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
@@ -224,13 +226,13 @@ move_lib
 delete_blacklisted
 
 mkdir -p ./usr/bin
-cp -r /usr/bin/ ./usr/bin/
+mv /usr/bin/vlc* ./usr/bin/
 
 # We don't bundle the developer stuff
 rm -rf usr/include || true
 rm -rf usr/lib/cmake || true
 rm -rf usr/lib/pkgconfig || true
-rm -rf rm -rf ./usr/share/doc/vlc/libvlc/ || true
+rm -rf ./usr/share/doc/vlc/libvlc/ || true
 find /$APPDIR/$APP.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
 strip usr/bin/* usr/lib/* usr/lib/vlc/plugins/*/* || true
 
