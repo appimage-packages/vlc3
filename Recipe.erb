@@ -214,8 +214,6 @@ APPDIR=VLC
 mkdir -p /$APPDIR/$APP.AppDir
 cd  /$APPDIR/$APP.AppDir
 mv /vlc.* .
-mkdir -p ./usr/bin
-cp -r /usr/bin/ ./usr/bin/
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
 cp -r /usr/share/ ./usr/share
@@ -224,6 +222,9 @@ patch_usr
 copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
 move_lib
 delete_blacklisted
+
+mkdir -p ./usr/bin
+cp -r /usr/bin/ ./usr/bin/
 
 # We don't bundle the developer stuff
 rm -rf usr/include || true
