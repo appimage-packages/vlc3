@@ -232,11 +232,27 @@ mkdir -p ./usr/share/applications; mv /usr/share/applications $_
 mkdir -p ./usr/lib/vlc; mv /usr/lib/vlc $_
 
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
-patch_usr
-copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
+
+#functions.sh moves them to same location? But only sometimes, I don't get it.
+copy_deps2()
+{
+ cd  /$APPDIR/$APP.AppDir/
+  FILES=$(find . -type f -executable -or -name *.so.* -or -name *.so | sort | uniq )
+  for FILE in $FILES ; do
+    ldd "${FILE}" | grep "=>" | awk '{print $3}' | xargs -I '{}' echo '{}' >> DEPSFILE
+  done
+  DEPS=$(cat DEPSFILE | sort | uniq)
+  for FILE in $DEPS ; do
+    if [ -e $FILE ] ; then
+      cp -v --parents -rfL $FILE .
+    fi
+  done
+  rm -f DEPSFILE
+}
+copy_deps2 ; copy_deps2 ; copy_deps2 # Three runs to ensure we catch indirect ones
 mv /usr/lib/libvlc* ./usr/lib/
 delete_blacklisted
-
+patch_usr
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
 
 # We don't bundle the developer stuff
