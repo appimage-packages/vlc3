@@ -11,22 +11,16 @@
 # <j-b> once this is done, we can retalk :0
 ########################################################################
 APP=vlc
-# The below was meant to be run on Ubuntu 12.04.5 but as stated above this is not supported by VLC
-
-# I have successfully built VLC on EC2 using
-# https://console.aws.amazon.com/ec2/home?region=us-west-1#launchAmi=ami-c4fb82a4
-# c3.2xlarge = 8 CPUs
-# Run there with:
-# sudo su
-# wget -c https://github.com/probonopd/AppImages/raw/master/recipes/vlc3/Recipe
-# bash -ex Recipe
-# Make sure to delete the cloud instance after building in order not to incur additional cost
 
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
-libgtk-3-dev xutils-dev libgtk2.0-dev
+libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev liblivemedia-dev libdc-dev libraw-dev libavc1394-dev \
+libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1 libfluidsynth-dev \
+libxcb-keysyms1-dev librsvg2-dev libcairo2-dev libjack-dev libsoxr-dev
 
 # Don't use ubuntu libtool as it is too old.
+
+#Needed to export all possible pkgconfig paths to prevent pkgconfig failures in tools and contribs.
 export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 
@@ -51,8 +45,8 @@ make install
 ########################################################################
 
 cd /
-git clone git://git.videolan.org/$APP.git --depth 1
-cd $APP
+git clone git://git.videolan.org/vlc.git --depth 1
+cd vlc
 
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
@@ -65,34 +59,21 @@ cd $APP
 # To connect to cmake.org insecurely, use `--no-check-certificate'.
 echo "check_certificate = off" > $HOME/.wgetrc
 
+# Add tools to the path/lib
 export PATH=/vlc/extras/tools/build/bin:$PATH
 export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:$LD_LIBRARY_PATH
+
 cd extras/tools/
 ./bootstrap
 make -j 8
-# make
-# make
-# make
-# make
-# make
-# make
-# Why do I have to run make repeatedly on Trusty but not on Precise or Xenial?
 
 cd ../..
 
-# Did I get "You are ready to build VLC and its contribs"?
-# Only then proceed.
-
-########################################################################
-# Bootstrap
-########################################################################
-
-# Did I get "Successfully bootstrapped"?
-# Only then proceed.
-
 ########################################################################
 # Install newer versions of some build-time dependencies
-# "Contrib" does not seem to build these for me, should it?
+# These need to be enabled or disabled at bootstrap. Unfortunately, these do NOT
+# build in any logical order and therefore dependency chains are broken and I had to build
+# them outside contribs.
 ########################################################################
 
 # Workaround for:
@@ -106,8 +87,8 @@ cd gettext-0.19.7
             --disable-static
 make -j 8 && make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
-cd /vlc
 
+cd /vlc
 
 ########################################################################
 # The "Contrib" method.
@@ -116,25 +97,31 @@ cd /vlc
 ########################################################################
 export PATH=/vlc/extras/tools/build/bin/:/vlc/contrib/x86_64-linux-gnu/bin:$PATH
 export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu/lib:$LD_LIBRARY_PATH
-cd contrib
-mkdir native
-cd native
-../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua
+
 
 ########################################################################
-# Build VLC itself
-########################################################################
-
+#  Bootstrap
 # Should say:
 # "vlc aliases : cvlc rvlc qvlc svlc"
 # Don't proceed if qvlc is not listed.
+########################################################################
 
+cd contrib
+mkdir native
+cd native
+../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
+--enable-libdsm --enable-mfx --enable-fluidlite --enable-aribb25
 make -j 8
 
 cd ../..
 
-# I cannot seem to get contribs to be useful as it builds in the wrong order and thus xcb fails.
-# build xcb stack from source.
+########################################################################
+# The "Contrib" method.
+# These are the failed contribs done manually
+# Most of them failed due to depending on another contrib and there was no method
+# that I could find to force build order.
+########################################################################
+
 cd /usr/src
 wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
 tar -jxvf xcb-proto-1.12.tar.bz2
@@ -170,18 +157,27 @@ cd alsa-lib-1.1.1
 make -j8
 make install
 
-## Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
+########################################################################
+# GCC6
+# Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
+# contribs also had many gcc6 failures. So only building vlc itself with gcc6 as requested.
+########################################################################
+
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
+
+########################################################################
+# Build VLC itself
+########################################################################
 cd /vlc
 ./bootstrap
- ./configure --disable-chromaprint --disable-ncurses --enable-alsa=true --prefix=/usr
+ ./configure --disable-chromaprint --disable-bluray --enable-alsa=true \
+ --enable-qt --prefix=/usr
 
 make -j 8
 
-APP=vlc
 make install
 
 ########################################################################
@@ -190,24 +186,23 @@ make install
 ########################################################################
 wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
 . ./functions.sh
-APPDIR=VLC
-mkdir -p /$APPDIR/$APP.AppDir
+
 cd /
-
-export ARCH=x86_64
-
-cp /usr/share/icons/hicolor/48x48/apps/vlc.png .
-
 get_apprun
-
 cp /usr/share/applications/vlc.desktop .
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
 sed -i -e "s|Icon=.*|Icon=vlc.png|g" vlc.desktop
 cat vlc.desktop
+cp /usr/share/icons/hicolor/48x48/apps/vlc.png .
 get_desktopintegration vlc
+
+
+export ARCH=x86_64
+APPDIR=VLC
+mkdir -p /$APPDIR/$APP.AppDir
 cd  /$APPDIR/$APP.AppDir
 mv /vlc.* .
-cp /usr/bin/* ./usr/bin/
+cp /usr/bin/vlc* ./usr/bin/
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
 cp -r /usr/share/ ./usr/share
