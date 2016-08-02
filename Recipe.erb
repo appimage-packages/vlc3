@@ -10,7 +10,7 @@
 # <j-b> don't build with Qt4, but qith qt5
 # <j-b> once this is done, we can retalk :0
 ########################################################################
-
+APP=vlc
 # The below was meant to be run on Ubuntu 12.04.5 but as stated above this is not supported by VLC
 
 # I have successfully built VLC on EC2 using
@@ -51,8 +51,8 @@ make install
 ########################################################################
 
 cd /
-git clone git://git.videolan.org/vlc.git --depth 1
-cd vlc
+git clone git://git.videolan.org/$APP.git --depth 1
+cd $APP
 
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
@@ -119,7 +119,7 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb
+../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua
 
 ########################################################################
 # Build VLC itself
@@ -181,7 +181,7 @@ cd /vlc
 
 make -j 8
 
-APP=VLC
+APP=vlc
 make install
 
 ########################################################################
@@ -190,7 +190,8 @@ make install
 ########################################################################
 wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
 . ./functions.sh
-mkdir -p /$APP/$APP.AppDir
+APPDIR=VLC
+mkdir -p /$APPDIR/$APP.AppDir
 cd /
 
 export ARCH=x86_64
@@ -204,7 +205,7 @@ sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
 sed -i -e "s|Icon=.*|Icon=vlc.png|g" vlc.desktop
 cat vlc.desktop
 get_desktopintegration vlc
-cd  /$APP/$APP.AppDir
+cd  /$APPDIR/$APP.AppDir
 mv /vlc.* .
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
@@ -220,7 +221,7 @@ rm -rf usr/include || true
 rm -rf usr/lib/cmake || true
 rm -rf usr/lib/pkgconfig || true
 rm -rf rm -rf ./usr/share/doc/vlc/libvlc/ || true
-find /VLC/VLC.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
+find /$APPDIR/$APP.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
 strip usr/bin/* usr/lib/* usr/lib/vlc/plugins/*/* || true
 
 GLIBC_NEEDED=$(find . -type f -executable -exec strings {} \; | grep ^GLIBC_2 | sed s/GLIBC_//g | sort --version-sort | uniq | tail -n 1)
@@ -230,5 +231,5 @@ VERSION=3.0.0.git$(cat /vlc/src/revision.txt).glibc$GLIBC_NEEDED # FIXME
 # AppDir complete
 # Now packaging it as an AppImage
 ########################################################################
-cd /$APP
+cd /$APPDIR
 generate_appimage
