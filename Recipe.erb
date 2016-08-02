@@ -115,7 +115,7 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
+../bootstrap --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid
 make -j 8
 
