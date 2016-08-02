@@ -201,12 +201,14 @@ get_apprun
 
 cp /usr/share/applications/vlc.desktop .
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
+sed -i -e "s|Icon=.*|Icon=vlc.png|g" vlc.desktop
 cat vlc.desktop
 get_desktopintegration vlc
 cd  /$APP/$APP.AppDir
+mv vlc.* .
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
-cp -r /usr/share/ ./usr/share/
+cp -r /usr/share/ ./usr/share
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 patch_usr
 copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
