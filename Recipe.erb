@@ -214,7 +214,7 @@ APPDIR=VLC
 mkdir -p /$APPDIR/$APP.AppDir
 cd  /$APPDIR/$APP.AppDir
 mv /vlc.* .
-cp /usr/bin/vlc* ./usr/bin/
+cp -r /usr/bin/ ./usr/bin/
 mkdir -p ./usr/lib/qt5
 cp -r /usr/lib/x86_64-linux-gnu/qt5/plugins/ ./usr/lib/qt5/
 cp -r /usr/share/ ./usr/share
