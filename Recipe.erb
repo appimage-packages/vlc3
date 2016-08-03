@@ -147,7 +147,7 @@ cd contrib
 mkdir native
 cd native
 ../bootstrap --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
---enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid --enable-qt \
+--enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
 --enable-soxr
 make -j 8
 
@@ -198,6 +198,27 @@ wget http://cairographics.org/releases/cairo-1.14.6.tar.xz
 tar -xvf  cairo-1.14.6.tar.xz
 cd cairo-1.14.6
 ./configure --prefix=/usr
+make -j8
+make install
+
+
+#Workaround
+#mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
+#mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
+#make: *** [.qt] Error 1
+#make: *** Waiting for unfinished jobs..
+
+QTVERSION=5.7.0
+QVERSION_SHORT=5.7
+QTV=5.7.0
+cd /usr/src
+wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/single/qt-everywhere-opensource-src-${QTVERSION}.tar.xz
+tar xvf qt-everywhere-opensource-src-${QTVERSION}.tar.xz
+cd qt-everywhere-opensource-src-$QTV
+./configure -v -static -release -opensource -confirm-license -no-pkg-config \
+	-no-sql-sqlite -no-gif -qt-libjpeg -no-openssl -no-opengl -no-dbus \
+	-no-qml-debug -no-audio-backend -no-sql-odbc \
+            -no-compile-examples -nomake examples
 make -j8
 make install
 
