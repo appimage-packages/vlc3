@@ -23,11 +23,10 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Install what we can via packages
 sudo apt-get update && sudo apt-get -y upgrade
-sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev qtbase5-dev \
+sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev \
 libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev liblivemedia-dev libdc-dev libraw-dev libavc1394-dev \
 libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
-librsvg2-dev libcairo2-dev libsoxr-dev libqt5widgets5 libqt5core5a libqt5gui5 libvdpau-dev \
-python3-dev libsoxr-dev
+libvdpau-dev python3-dev \
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -116,7 +115,8 @@ cd contrib
 mkdir native
 cd native
 ../bootstrap --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
---enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid
+--enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid --enable-qt \
+--enable-soxr
 make -j 8
 
 cd ../..
@@ -179,6 +179,23 @@ cd alsa-lib-1.1.1
 make -j8
 make install
 
+cd /usr/src
+wget http://ftp.gnome.org/pub/gnome/sources/librsvg/2.40/librsvg-2.40.16.tar.xz
+tar -xvf librsvg-2.40.16.tar.xz
+cd librsvg-2.40.16
+./configure --prefix=/usr \
+                  --disable-introspection
+make -j8
+make install
+
+cd /usr/src
+wget http://cairographics.org/releases/cairo-1.14.6.tar.xz
+tar -xvf  cairo-1.14.6.tar.xz
+cd cairo-1.14.6
+./configure --prefix=/usr
+make -j8
+make install
+
 ########################################################################
 # GCC6
 # Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
@@ -215,7 +232,6 @@ cd /
 cp /usr/share/applications/vlc.desktop .
 sed -i -e "s|Exec=.*|Exec=vlc|g" vlc.desktop
 sed -i -e "s|Icon=.*|Icon=vlc.png|g" vlc.desktop
-cat vlc.desktop
 cp /usr/share/icons/hicolor/48x48/apps/vlc.png .
 get_desktopintegration vlc
 
@@ -229,7 +245,6 @@ mkdir -p ./usr/lib/qt5/; mv /usr/lib/x86_64-linux-gnu/qt5/plugins $_
 mkdir -p ./usr/share/vlc; mv /usr/share/vlc $_
 mkdir -p ./usr/share/icons/hicolor; mv /usr/share/icons/hicolor $_
 mkdir -p ./usr/share/applications; mv /usr/share/applications $_
-mkdir -p ./usr/lib/vlc; mv /usr/lib/vlc $_
 
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 
@@ -243,17 +258,19 @@ copy_deps2()
   done
   DEPS=$(cat DEPSFILE | sort | uniq)
   for FILE in $DEPS ; do
+    FILE=$FILE | tr -d .
     if [ -e $FILE ] ; then
-      cp -v --parents -rfL $FILE | | tr -d .  ./
+      cp -v --parents -rfL $FILE   ./
     fi
   done
   rm -f DEPSFILE
 }
 copy_deps2 ; copy_deps2 ; copy_deps2 # Three runs to ensure we catch indirect ones
-mv /usr/lib/libvlc* ./usr/lib/
 delete_blacklisted
 patch_usr
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
+mkdir -p ./usr/lib/vlc; mv /usr/lib/vlc $_
+mv /usr/lib/libvlc* ./usr/lib/
 
 # We don't bundle the developer stuff
 rm -rf usr/include || true
