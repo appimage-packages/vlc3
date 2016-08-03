@@ -26,7 +26,8 @@ sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev \
 libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev liblivemedia-dev libdc-dev libraw-dev libavc1394-dev \
 libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
-libvdpau-dev python3-dev \
+libvdpau-dev python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev \
+libsecret-1-dev libnotify-dev
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -43,6 +44,26 @@ wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
 tar -jxvf util-macros-1.19.0.tar.bz2
 cd util-macros-1.19.0
 ./configure --prefix /usr
+make install
+
+# Workaround for contrib qt needing xcb
+cd /usr/src
+wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
+tar -jxvf xcb-proto-1.12.tar.bz2
+cd xcb-proto-1.12
+./configure --prefix=/usr
+make -j8
+make install
+
+cd /usr/src
+wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
+tar -jxvf libxcb-1.12.tar.bz2
+cd libxcb-1.12
+sed -i "s/pthread-stubs//" configure
+./configure --prefix=/usr \
+            --enable-xinput   \
+            --without-doxygen
+make
 make install
 
 ########################################################################
@@ -126,25 +147,6 @@ cd ../..
 # Most of them failed due to depending on another contrib and there was no method
 # that I could find to force build order.
 ########################################################################
-
-cd /usr/src
-wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
-tar -jxvf xcb-proto-1.12.tar.bz2
-cd xcb-proto-1.12
-./configure --prefix=/usr
-make -j8
-make install
-
-cd /usr/src
-wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
-tar -jxvf libxcb-1.12.tar.bz2
-cd libxcb-1.12
-sed -i "s/pthread-stubs//" configure
-./configure --prefix=/usr \
-            --enable-xinput   \
-            --without-doxygen
-make
-make install
 
 cd /usr/src
 wget http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.4.0.tar.bz2
