@@ -16,7 +16,7 @@ export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgc
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 # Build failures without this, putting at top for consistancy
 export CFLAGS=-fPIC
-VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
+
 ARCH=$(arch)
 APP=<%= name %>
 export DEBIAN_FRONTEND=noninteractive
@@ -86,7 +86,7 @@ make install
 cd /
 git clone git://git.videolan.org/vlc.git --depth 1
 cd vlc
-
+VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
 ########################################################################
@@ -238,9 +238,9 @@ make install
 #make: *** [.qt] Error 1
 #make: *** Waiting for unfinished jobs..
 
-QTVERSION=5.7.0
-QVERSION_SHORT=5.7
-QTV=5.7.0
+QTVERSION=5.6.0
+QVERSION_SHORT=5.6
+QTV=5.6.0
 cd /usr/src
 wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/single/qt-everywhere-opensource-src-${QTVERSION}.tar.xz
 tar xvf qt-everywhere-opensource-src-${QTVERSION}.tar.xz
