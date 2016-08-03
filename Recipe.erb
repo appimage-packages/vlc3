@@ -24,7 +24,7 @@ export DEBIAN_FRONTEND=noninteractive
 # Install what we can via packages
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev \
-libx11-xcb-dev libxcb-image0-dev libpixman-1-dev \
+libx11-xcb-dev libxcb-image0-dev gzip \
 libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev \
 libxcb-render-util0-dev libxcb-glx0-dev libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev \
 liblivemedia-dev libdc-dev libraw-dev libavc1394-dev libgdk-pixbuf2.0-dev \
@@ -188,6 +188,14 @@ cd /usr/src
 wget http://ftp.gnome.org/pub/gnome/sources/libcroco/0.6/libcroco-0.6.11.tar.xz
 tar -xvf libcroco-0.6.11.tar.xz
 cd libcroco-0.6.11
+./configure --prefix=/usr
+make -j8
+make install
+
+cd /usr/src
+wget http://cairographics.org/releases/pixman-0.34.0.tar.gz
+gunzip pixman-0.34.0.tar.gz
+cd pixman-0.34.0
 ./configure --prefix=/usr
 make -j8
 make install
