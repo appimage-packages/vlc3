@@ -24,7 +24,7 @@ export DEBIAN_FRONTEND=noninteractive
 # Install what we can via packages
 sudo apt-get update && sudo apt-get -y upgrade
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev \
-libx11-xcb-dev libxcb-image0-dev gzip libopenvg1-mesa-dev \
+libx11-xcb-dev libxcb-image0-dev gzip libopenvg1-mesa-dev software-properties-common \
 libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev \
 libxcb-render-util0-dev libxcb-glx0-dev libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev \
 liblivemedia-dev libdc-dev libraw-dev libavc1394-dev libgdk-pixbuf2.0-dev \
@@ -32,7 +32,9 @@ libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev l
 libvdpau-dev python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev \
 libsecret-1-dev libnotify-dev
 
-sudo apt-get -y build-dep qtbase5-dev
+sudo add-apt-repository ppa:beineri/opt-qt56-trusty
+sudo apt-get update
+sudo apt-get -y qtbase5-dev
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -238,19 +240,19 @@ make install
 #make: *** [.qt] Error 1
 #make: *** Waiting for unfinished jobs..
 
-QTVERSION=5.6.0
-QVERSION_SHORT=5.6
-QTV=5.6.0
-cd /usr/src
-wget http://download.qt.io/archive/qt/${QVERSION_SHORT}/${QTVERSION}/single/qt-everywhere-opensource-src-${QTVERSION}.tar.xz
-tar xvf qt-everywhere-opensource-src-${QTVERSION}.tar.xz
-cd qt-everywhere-opensource-src-$QTV
-./configure -v -static -release -opensource -confirm-license -no-pkg-config \
-	-no-sql-sqlite -no-gif -qt-libjpeg -no-openssl -no-opengl -no-dbus \
-	-no-qml-debug -no-audio-backend -no-sql-odbc \
-            -no-compile-examples -nomake examples
-make -j8
-make install
+# QT_VERSION=5.6.0
+# QVERSION_SHORT=5.6
+# QTV=5.6.0
+# cd /usr/src
+# wget https://download.qt.io/official_releases/qt/5.6/$(QT_VERSION)/submodules/qtbase-opensource-src-$(QT_VERSION).tar.xz
+# tar xvf qt-everywhere-opensource-src-${QT_VERSION}.tar.xz
+# cd qt-everywhere-opensource-src-$QTV
+# ./configure -v -static -release -opensource -confirm-license -no-pkg-config \
+# 	-no-sql-sqlite -no-gif -qt-libjpeg -no-openssl -no-opengl -no-dbus \
+# 	-no-qml-debug -no-audio-backend -no-sql-odbc \
+#             -no-compile-examples -nomake examples
+# make -j8
+# make install
 
 ########################################################################
 # GCC6
@@ -270,7 +272,7 @@ cd /vlc
 
 ./bootstrap
 MOC=/usr/bin/moc-qt5 UIC=/usr/bin/uic-qt5 RCC=/usr/bin/rcc-qt5 ./configure --disable-chromaprint --disable-bluray --enable-alsa=true \
---prefix=/usr
+--prefix=/usr --enable-qt
 
 make -j 8
 
