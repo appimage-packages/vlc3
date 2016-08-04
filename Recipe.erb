@@ -144,7 +144,7 @@ chmod -v 0755 /usr/lib/preloadable_libintl.so
 FFI_VERSION=3.0.13
 FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
 wget $FFI_URL
-tar -xvf libffi-$FFI_VERSION.tar.xz
+tar -jxvf libffi-$FFI_VERSION.tar.gz
 cd libffi-$FFI_VERSION
 ./configure --prefix=/usr
 make -j 8 && make install
