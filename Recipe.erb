@@ -282,7 +282,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 cd /vlc
 
 ./bootstrap
-RCC=/usr/bin/rcc-qt5 ./configure --disable-chromaprint --disable-bluray --enable-alsa=true \
+./configure --disable-chromaprint --disable-bluray --enable-alsa=true \
 --prefix=/usr
 
 make -j 8
