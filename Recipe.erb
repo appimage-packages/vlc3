@@ -32,10 +32,6 @@ libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev l
 libvdpau-dev python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev \
 libsecret-1-dev libnotify-dev
 
-sudo add-apt-repository ppa:beineri/opt-qt561-trusty
-sudo apt-get update
-sudo apt-get -y install qtbase5-dev
-
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
 # autoreconf: running: automake --add-missing --copy --force-missing
@@ -319,6 +315,9 @@ mkdir -p ./usr/share/vlc; mv /usr/share/vlc $_
 mkdir -p ./usr/share/icons/hicolor; mv /usr/share/icons/hicolor $_
 mkdir -p ./usr/share/applications; mv /usr/share/applications $_
 mkdir -p ./usr/share/mime; mv /usr/share/mime $_
+mkdir -p ./usr/share/locale; mv /usr/share/locale $_
+mkdir -p ./usr/share/locale-langpack; mv /usr/share/locale-langpack $_
+
 
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 
@@ -344,6 +343,7 @@ delete_blacklisted
 patch_usr
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
 mkdir -p ./usr/lib/vlc; mv /usr/lib/vlc $_
+mkdir -p ./usr/lib/vlc/plugins; mv /usr/lib/vlc/plugins $_
 mv /usr/lib/libvlc* ./usr/lib/
 
 # We don't bundle the developer stuff
