@@ -99,7 +99,7 @@ cd vlc
 #mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
 #make: *** [.qt] Error 1
 #make: *** Waiting for unfinished jobs..
-sed -i s|mv\s\/vlc\/contrib\/x86_64-linux-gnu\/plugins\/platforms\/libqwindows.a|#mv\s\/vlc\/contrib\/x86_64-linux-gnu\/plugins\/platforms\/libqwindows.a| contrib/qt/src/rules.mak
+sed -i '/libqwindows.a/d' contrib/qt/src/rules.mak
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
 ########################################################################
