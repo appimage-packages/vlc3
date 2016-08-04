@@ -158,13 +158,17 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 # "vlc aliases : cvlc rvlc qvlc svlc"
 # Don't proceed if qvlc is not listed.
 ########################################################################
+sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get --yes install  gcc-6 g++-6
+sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
 cd contrib
 mkdir native
 cd native
-../bootstrap --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
+../bootstrap --enable-ogg --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt --enable-ogg
+--enable-soxr --enable-qt
 make -j 8
 
 cd ../..
@@ -272,10 +276,7 @@ make install
 # contribs also had many gcc6 failures. So only building vlc itself with gcc6 as requested.
 ########################################################################
 
-sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get --yes install  gcc-6 g++-6
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
+
 
 ########################################################################
 # Build VLC itself
