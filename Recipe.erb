@@ -144,7 +144,7 @@ chmod -v 0755 /usr/lib/preloadable_libintl.so
 FFI_VERSION=3.0.13
 FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
 wget $FFI_URL
-tar -jxvf libffi-$FFI_VERSION.tar.gz
+tar -xvzf libffi-$FFI_VERSION.tar.gz
 cd libffi-$FFI_VERSION
 ./configure --prefix=/usr
 make -j 8 && make install
@@ -166,10 +166,6 @@ cd glib-2.48.1
 ./configure --prefix=/usr
 make -j 8 && make install
 
-sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
-sudo apt-get update
-sudo apt-get --yes install  gcc-6 g++-6
-sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 cd /vlc
 
 ########################################################################
