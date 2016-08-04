@@ -19,6 +19,7 @@ export CFLAGS=-fPIC
 
 ARCH=$(arch)
 APP=<%= name %>
+VERSION=3.0.0-git
 export DEBIAN_FRONTEND=noninteractive
 
 # Install what we can via packages
@@ -92,7 +93,6 @@ make install
 cd /
 git clone git://git.videolan.org/vlc.git --depth 1
 cd vlc
-VERSION=$(git describe)
 
 #Workaround
 #mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
