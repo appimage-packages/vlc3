@@ -96,7 +96,14 @@ make install
 cd /
 git clone git://git.videolan.org/vlc.git --depth 1
 cd vlc
-VERSION=$(git describe | sed -e 's/^r.*// ; s/-g.*$// ')
+VERSION=$(git describe)
+
+#Workaround
+#mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
+#mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
+#make: *** [.qt] Error 1
+#make: *** Waiting for unfinished jobs..
+sed -i s|mv\s\/vlc\/contrib\/x86_64-linux-gnu\/plugins\/platforms\/libqwindows.a|#mv\s\/vlc\/contrib\/x86_64-linux-gnu\/plugins\/platforms\/libqwindows.a| contrib/qt/src/rules.mak
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
 ########################################################################
@@ -160,7 +167,7 @@ mkdir native
 cd native
 ../bootstrap --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr
+--enable-soxr --enable-qt
 make -j 8
 
 cd ../..
