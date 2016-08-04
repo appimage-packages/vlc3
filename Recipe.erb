@@ -156,9 +156,9 @@ make -j 8 && make install
 #make[5]: *** [libglib_2_0_la-gdate.lo] Error 1
 #make[5]: *** Waiting for unfinished jobs....
 
-GLIB_VERSION = 2.38
-GLIB_MINOR_VERSION = 2.38.2
-GLIB_URL = http://ftp.gnome.org/pub/gnome/sources/glib/$(GLIB_VERSION)/glib-$(GLIB_MINOR_VERSION).tar.xz
+GLIB_VERSION=2.38
+GLIB_MINOR_VERSION=2.38.2
+GLIB_URL = http://ftp.gnome.org/pub/gnome/sources/glib/$GLIB_VERSION/glib-$GLIB_MINOR_VERSION.tar.xz
 cd /usr/src
 wget $GLIB_URL
 tar -xvf glib-2.48.1.tar.xz
