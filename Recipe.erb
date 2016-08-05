@@ -161,8 +161,8 @@ GLIB_MINOR_VERSION=2.38.2
 GLIB_URL=http://ftp.gnome.org/pub/gnome/sources/glib/$GLIB_VERSION/glib-$GLIB_MINOR_VERSION.tar.xz
 cd /usr/src
 wget $GLIB_URL
-tar -xvf glib-$GLIB_VERSION.tar.xz
-cd glib-$GLIB_VERSION
+tar -xvf glib-$GLIB_MINOR_VERSION.tar.xz
+cd glib-$GLIB_MINOR_VERSION
 ./configure --prefix=/usr
 make -j 8 && make install
 
