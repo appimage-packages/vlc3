@@ -360,7 +360,7 @@ copy_deps2()
   for FILE in $DEPS ; do
     FILE=$FILE | tr -d .
     if [ -e $FILE ] ; then
-      cp -v --parents -rfL $FILE   ./
+      cp -v --parents -rfL $FILE   /$APPDIR/$APP.AppDir/
     fi
   done
   rm -f DEPSFILE
