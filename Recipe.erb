@@ -348,26 +348,9 @@ mkdir -p ./usr/share/locale; mv /usr/share/locale $_
 
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 
-#functions.sh moves them to same location? But only sometimes, I don't get it.
-copy_deps2()
-{
- cd  /$APPDIR/$APP.AppDir/
-  FILES=$(find . -type f -executable -or -name *.so.* -or -name *.so | sort | uniq )
-  for FILE in $FILES ; do
-    ldd "${FILE}" | grep "=>" | awk '{print $3}' | xargs -I '{}' echo '{}' >> DEPSFILE
-  done
-  DEPS=$(cat DEPSFILE | sort | uniq)
-  for FILE in $DEPS ; do
-    FILE=$FILE | sed -e 's/\.//g'
-    if [ -e $FILE ] ; then
-      cp -v --parents -rfL $FILE   /$APPDIR/$APP.AppDir/
-    fi
-  done
-  rm -f DEPSFILE
-}
-copy_deps2 ; copy_deps2 ; copy_deps2 # Three runs to ensure we catch indirect ones
-delete_blacklisted
 patch_usr
+copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
+delete_blacklisted
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
 mkdir -p ./usr/lib/vlc; mv /usr/lib/vlc $_
 mkdir -p ./usr/lib/vlc/plugins; mv /usr/lib/vlc/plugins $_
