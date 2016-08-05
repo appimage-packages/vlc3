@@ -353,7 +353,7 @@ move_lib
 copy_deps # Three runs to ensure we catch indirect ones
 delete_blacklisted
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
-mkdir -p ./usr/lib/vlc; mv /usr/lib/vlc $_
+mkdir -p ./usr/lib; mv /usr/lib/vlc $_
 mv /usr/lib/libvlc* ./usr/lib/
 
 # We don't bundle the developer stuff
