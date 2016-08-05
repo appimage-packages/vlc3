@@ -349,6 +349,7 @@ mkdir -p ./usr/share/locale; mv /usr/share/locale $_
 export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
 
 patch_usr
+move_lib
 copy_deps ; copy_deps ; copy_deps # Three runs to ensure we catch indirect ones
 delete_blacklisted
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
