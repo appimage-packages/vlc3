@@ -358,7 +358,7 @@ copy_deps2()
   done
   DEPS=$(cat DEPSFILE | sort | uniq)
   for FILE in $DEPS ; do
-    FILE=$FILE | tr -d .
+    FILE=$FILE | sed -e 's/\.//g'
     if [ -e $FILE ] ; then
       cp -v --parents -rfL $FILE   /$APPDIR/$APP.AppDir/
     fi
