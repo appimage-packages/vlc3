@@ -101,6 +101,7 @@ cd vlc
 #make: *** Waiting for unfinished jobs..
 sed -i '/libqwindows.a/d' contrib/src/qt/rules.mak
 sed -i 's/-lqwindows//' contrib/src/qt/rules.mak
+sed -i 's/-static//' contrib/src/qt/rules.mak
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
 ########################################################################
