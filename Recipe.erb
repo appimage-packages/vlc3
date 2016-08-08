@@ -184,6 +184,12 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 # "vlc aliases : cvlc rvlc qvlc svlc"
 # Don't proceed if qvlc is not listed.
 ########################################################################
+
+########################################################################
+# GCC6
+# Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
+# contribs also had many gcc6 failures. So only building vlc itself with gcc6 as requested.
+########################################################################
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
@@ -230,6 +236,14 @@ cd alsa-lib-1.1.1
 make -j8
 make install
 
+#libvpau is not found by vlc so my guess it is too old.
+cd /usr/src
+wget http://people.freedesktop.org/~aplattner/vdpau/libvdpau-0.8.tar.gz
+tar -xvzf libvdpau-0.8.tar.gz
+cd libvdpau-0.8
+./configure --prefix=/usr
+make -j8
+make install
 
 # librsvg stack is entirely broken
 # Disable whole librsvg stack as contribs disables glib in harfbuzz despite librsvg
@@ -275,34 +289,6 @@ make install
 #                   --disable-introspection
 # make -j8
 # make install
-
-#Workaround
-#mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
-#mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
-#make: *** [.qt] Error 1
-#make: *** Waiting for unfinished jobs..
-
-# QT_VERSION=5.6.0
-# QVERSION_SHORT=5.6
-# QTV=5.6.0
-# cd /usr/src
-# wget https://download.qt.io/official_releases/qt/5.6/$(QT_VERSION)/submodules/qtbase-opensource-src-$(QT_VERSION).tar.xz
-# tar xvf qt-everywhere-opensource-src-${QT_VERSION}.tar.xz
-# cd qt-everywhere-opensource-src-$QTV
-# ./configure -v -static -release -opensource -confirm-license -no-pkg-config \
-# 	-no-sql-sqlite -no-gif -qt-libjpeg -no-openssl -no-opengl -no-dbus \
-# 	-no-qml-debug -no-audio-backend -no-sql-odbc \
-#             -no-compile-examples -nomake examples
-# make -j8
-# make install
-
-########################################################################
-# GCC6
-# Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
-# contribs also had many gcc6 failures. So only building vlc itself with gcc6 as requested.
-########################################################################
-
-
 
 ########################################################################
 # Build VLC itself
@@ -353,8 +339,10 @@ move_lib
 copy_deps # Three runs to ensure we catch indirect ones
 delete_blacklisted
 mkdir -p ./usr/bin; mv /usr/bin/*vlc* $_
-mkdir -p ./usr/lib; mv /usr/lib/vlc $_
 mv /usr/lib/libvlc* ./usr/lib/
+mkdir -p ./usr/lib; mv /usr/lib/vlc $_
+mv /vlc/contrib/x86_64-linux-gnu/lib/* ./usr/lib/
+
 
 # We don't bundle the developer stuff
 rm -rf usr/include || true
