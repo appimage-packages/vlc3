@@ -32,7 +32,7 @@ liblivemedia-dev libdc-dev libraw-dev libavc1394-dev libgdk-pixbuf2.0-dev shared
 libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
 python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev \
 libsecret-1-dev libnotify-dev x11proto-fonts-dev x11proto-scrnsaver-dev x11proto-resource-dev \
-x11proto-record-dev x11proto-video-dev x11proto-xext-dev x11proto-xf86dga-dev x11proto-dmx-dev 
+x11proto-record-dev x11proto-video-dev x11proto-xext-dev x11proto-xf86dga-dev x11proto-dmx-dev
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -50,6 +50,49 @@ tar -jxvf util-macros-1.19.0.tar.bz2
 cd util-macros-1.19.0
 ./configure --prefix /usr
 make install
+
+
+########################################################################
+# Get VLC
+########################################################################
+
+cd /
+git clone git://git.videolan.org/vlc.git --depth 1
+cd vlc
+
+#Workaround
+#mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
+#mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
+#make: *** [.qt] Error 1
+#make: *** Waiting for unfinished jobs..
+sed -i '/libqwindows.a/d' contrib/src/qt/rules.mak
+sed -i 's/-lqwindows//' contrib/src/qt/rules.mak
+sed -i 's/-static//' contrib/src/qt/rules.mak
+########################################################################
+# To-be-built packages: autoconf automake cmake yasm ragel protoc ant
+########################################################################
+
+# Workaround for:
+# Connecting to cmake.org (cmake.org)|66.194.253.19|:443... connected.
+# ERROR: no certificate subject alternative name matches
+# 	requested host name `cmake.org'.
+# To connect to cmake.org insecurely, use `--no-check-certificate'.
+echo "check_certificate = off" > $HOME/.wgetrc
+
+# Add tools to the path/lib
+export PATH=/vlc/extras/tools/build/bin:$PATH
+export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:$LD_LIBRARY_PATH
+
+cd extras/tools/
+./bootstrap
+make -j 8
+
+cd ../..
+
+
+########################################################################
+# Extra deps of contribs  that are too old , build from source
+########################################################################
 
 # Workaround for contrib qt needing xcb
 cd /usr/src
@@ -159,43 +202,6 @@ cd libvdpau-0.8
 ./configure --prefix=/usr
 make -j8
 make install
-
-########################################################################
-# Get VLC
-########################################################################
-
-cd /
-git clone git://git.videolan.org/vlc.git --depth 1
-cd vlc
-
-#Workaround
-#mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
-#mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
-#make: *** [.qt] Error 1
-#make: *** Waiting for unfinished jobs..
-sed -i '/libqwindows.a/d' contrib/src/qt/rules.mak
-sed -i 's/-lqwindows//' contrib/src/qt/rules.mak
-sed -i 's/-static//' contrib/src/qt/rules.mak
-########################################################################
-# To-be-built packages: autoconf automake cmake yasm ragel protoc ant
-########################################################################
-
-# Workaround for:
-# Connecting to cmake.org (cmake.org)|66.194.253.19|:443... connected.
-# ERROR: no certificate subject alternative name matches
-# 	requested host name `cmake.org'.
-# To connect to cmake.org insecurely, use `--no-check-certificate'.
-echo "check_certificate = off" > $HOME/.wgetrc
-
-# Add tools to the path/lib
-export PATH=/vlc/extras/tools/build/bin:$PATH
-export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:$LD_LIBRARY_PATH
-
-cd extras/tools/
-./bootstrap
-make -j 8
-
-cd ../..
 
 ########################################################################
 # Install newer versions of some build-time dependencies
