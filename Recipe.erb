@@ -179,13 +179,15 @@ do
   pushd $packagedir
   case $packagedir in
     libXfont-[0-9]* )
-      ./configure  --disable-devel-docs
+      ./configure  --prefix=/usr \
+       --disable-devel-docs
     ;;
     libXt-[0-9]* )
-      ./configure  --with-appdefaultdir=/etc/X11/app-defaults
+      ./configure  --prefix=/usr \
+      --with-appdefaultdir=/etc/X11/app-defaults
     ;;
     * )
-      ./configure
+      ./configure  --prefix=/usr
     ;;
   esac
   make
