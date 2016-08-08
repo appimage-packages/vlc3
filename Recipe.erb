@@ -123,7 +123,7 @@ b7c0d3afce14eedca57312a3141ec13a  libpciaccess-0.13.2.tar.bz2
 2dd10448c1166e71a176206a8dfabe6d  libxshmfence-1.1.tar.bz2
 EOF
 
-grep -v '^#' ../lib-7.7.md5 | awk '{print $2}' | wget -i- -c \
+grep -v '^#' lib-7.7.md5 | awk '{print $2}' | wget -i- -c \
     -B http://xorg.freedesktop.org/releases/individual/lib/ &&
 md5sum -c ../lib-7.7.md5
 
