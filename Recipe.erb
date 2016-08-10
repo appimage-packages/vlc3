@@ -129,39 +129,13 @@ cd libXdmcp-1.1.2
 make -j8
 make install
 
-#x11proto too old
-cd /usr/src
-cat > proto.md5 << EOF
-36934d00b00555eaacde9f091f392f97  fontsproto-2.1.3.tar.bz2
-EOF
-
-grep -v '^#' proto.md5 | awk '{print $2}' | wget -i- -c \
-    -B https://www.x.org/releases/individual/proto/ &&
-md5sum -c proto.md5
-
-for package in $(grep -v '^#' proto.md5 | awk '{print $2}')
-do
-  packagedir=${package%.tar.bz2}
-  tar -xf $package
-  pushd $packagedir
-  case $packagedir in
-     * )
-      ./configure  --prefix=/usr
-    ;;
-  esac
-  make
-  make install
-  popd
-  rm -rf $packagedir
-  /sbin/ldconfig
-done
-
 # x11 libs are too old
 cd /usr/src
 cat > lib-7.7.md5 << EOF
 a615e17d9fee6f097fc3b716eacb3dca  xtrans-1.3.4.tar.bz2
 c35d6ad95b06635a524579e88622fdb5  libX11-1.6.2.tar.bz2
 96f76ba94b4c909230bac1e2dcd551c4 libXfont-1.5.1.tar.bz2
+0d9f6dd9c23bf4bcbfb00504b566baf5  libXfont2-2.0.1.tar.bz2
 52df7c4c1f0badd9f82ab124fb32eb97  libXext-1.3.3.tar.bz2
 a8a0dbd2299b2568d8c919883f5c8501  libFS-1.0.6.tar.bz2
 addfb1e897ca8079531669c7c7711726  libICE-1.0.9.tar.bz2
@@ -222,6 +196,34 @@ do
   rm -rf $packagedir
   /sbin/ldconfig
 done
+
+#x11proto too old
+cd /usr/src
+cat > proto.md5 << EOF
+36934d00b00555eaacde9f091f392f97  fontsproto-2.1.3.tar.bz2
+EOF
+
+grep -v '^#' proto.md5 | awk '{print $2}' | wget -i- -c \
+    -B https://www.x.org/releases/individual/proto/ &&
+md5sum -c proto.md5
+
+for package in $(grep -v '^#' proto.md5 | awk '{print $2}')
+do
+  packagedir=${package%.tar.bz2}
+  tar -xf $package
+  pushd $packagedir
+  case $packagedir in
+     * )
+      ./configure  --prefix=/usr
+    ;;
+  esac
+  make
+  make install
+  popd
+  rm -rf $packagedir
+  /sbin/ldconfig
+done
+
 #libvpau is not found by vlc so my guess it is too old. Moving it to top so that
 # it is built before the new protoc which is incompatible.
 cd /usr/src
