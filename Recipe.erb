@@ -53,6 +53,7 @@ make install
 cd /usr/src
 git clone https://github.com/google/protobuf
 cd protobuf
+./autogen.sh
 ./configure --prefix=/usr
 make -j8
 make install
