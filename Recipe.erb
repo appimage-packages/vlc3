@@ -50,6 +50,12 @@ cd util-macros-1.19.0
 ./configure --prefix /usr
 make install
 
+cd /usr/src
+git clone https://github.com/google/protobuf
+cd protobuf
+./configure --prefix=/usr
+make -j8
+make install
 
 ########################################################################
 # Get VLC
