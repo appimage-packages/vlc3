@@ -135,9 +135,9 @@ cat > proto.md5 << EOF
 36934d00b00555eaacde9f091f392f97  fontsproto-2.1.3.tar.bz2
 EOF
 
-grep -v '^#' lib-7.7.md5 | awk '{print $2}' | wget -i- -c \
+grep -v '^#' proto.md5 | awk '{print $2}' | wget -i- -c \
     -B https://www.x.org/releases/individual/proto/ &&
-md5sum -c lib-7.7.md5
+md5sum -c proto.md5
 
 for package in $(grep -v '^#' proto.md5 | awk '{print $2}')
 do
