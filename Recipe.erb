@@ -106,7 +106,8 @@ cd ../..
 export TERM=xterm
 wget https://bitbucket.org/multicoreware/x265/downloads/x265_1.9.tar.gz
 tar -xvzf x265_1.9.tar.gz
-cd x265_1.9/build/linux
+mkdir x265_1.9/build
+cd x265_1.9/build
 cmake ../source
 make
 
