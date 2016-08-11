@@ -72,7 +72,7 @@ sed -i 's/-static//' contrib/src/qt/rules.mak
 #[00007fe334c49f08] core decoder error: Codec `h264' (H264 - MPEG-4 AVC (part 10)) is not supported.
 # Looks like building libraries static is causing issues in appimage
 sed -i 's/--enable-static//' contrib/src/ffmpeg/rules.mak
-sed -i 's/--disable-shared/--enable-shared' contrib/src/ffmpeg/rules.mak
+sed -i 's/--disable-shared/--enable-shared/' contrib/src/ffmpeg/rules.mak
 sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON/' contrib/src/x265/rules.mak
 
 ########################################################################
