@@ -104,8 +104,9 @@ cd ../..
 # codecs will not load in appimage, google suggests it is an issue of static libs. The mak file
 # of x265 is causing issues forcing static, try from source.
 export TERM=xterm
-wget https://bitbucket.org/multicoreware/x265/get/x265_1.9.tar.gz
-cd x265/build/linux
+wget https://bitbucket.org/multicoreware/x265/downloads/x265_1.9.tar.gz
+tar -xvzf x265_1.9.tar.gz
+cd x265_1.9/build/linux
 cmake ../source
 make
 
