@@ -73,7 +73,7 @@ sed -i 's/-static//' contrib/src/qt/rules.mak
 # Looks like building libraries static is causing issues in appimage
 sed -i 's/--enable-static//' contrib/src/ffmpeg/rules.mak
 sed -i 's/--disable-shared/--enable-shared/' contrib/src/ffmpeg/rules.mak
-sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON/' contrib/src/x265/rules.mak
+sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON\s-DSTATIC_LINKING=FALSE/' contrib/src/x265/rules.mak
 sed -i '/$(APPLY)/d' contrib/src/x265/rules.mak
 
 ########################################################################
