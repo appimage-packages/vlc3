@@ -74,6 +74,7 @@ sed -i 's/-static//' contrib/src/qt/rules.mak
 sed -i 's/--enable-static//' contrib/src/ffmpeg/rules.mak
 sed -i 's/--disable-shared/--enable-shared/' contrib/src/ffmpeg/rules.mak
 sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON/' contrib/src/x265/rules.mak
+sed -i '/$(APPLY)/d' contrib/src/x265/rules.mak
 
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
