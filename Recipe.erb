@@ -31,7 +31,7 @@ libxcb-render-util0-dev libxcb-glx0-dev libgtk-3-dev libdbus-1-dev libgtk2.0-dev
 liblivemedia-dev libdc-dev libraw-dev libavc1394-dev libgdk-pixbuf2.0-dev shared-mime-info \
 libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
 python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev \
-libsecret-1-dev libxt-dev libfontenc-dev curl unzip gstreamer1.0-plugins-base
+libsecret-1-dev libxt-dev libfontenc-dev curl unzip gstreamer1.0-plugins-base mercurial
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -73,8 +73,8 @@ sed -i 's/-static//' contrib/src/qt/rules.mak
 # Looks like building libraries static is causing issues in appimage
 sed -i 's/--enable-static//' contrib/src/ffmpeg/rules.mak
 sed -i 's/--disable-shared/--enable-shared/' contrib/src/ffmpeg/rules.mak
-sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON\s-DSTATIC_LINKING=FALSE/' contrib/src/x265/rules.mak
-sed -i '/$(APPLY)/d' contrib/src/x265/rules.mak
+# sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON\s-DSTATIC_LINKING=FALSE/' contrib/src/x265/rules.mak
+# sed -i '/$(APPLY)/d' contrib/src/x265/rules.mak
 
 ########################################################################
 # To-be-built packages: autoconf automake cmake yasm ragel protoc ant
@@ -101,13 +101,12 @@ cd ../..
 ########################################################################
 # Extra deps of contribs  that are too old , build from source
 ########################################################################
-cd /usr/src
-git clone https://github.com/google/protobuf
-cd protobuf
-./autogen.sh
-./configure --prefix=/usr
-make -j8
-make install
+# codecs will not load in appimage, google suggests it is an issue of static libs. The mak file
+# of x265 is causing issues forcing static, try from source.
+hg clone https://bitbucket.org/multicoreware/x265
+cd x265/build/linux
+./make-Makefiles.bash
+make
 
 # Workaround for contrib qt needing xcb
 cd /usr/src
@@ -310,14 +309,6 @@ cd /vlc
 export PATH=/vlc/extras/tools/build/bin/:/vlc/contrib/x86_64-linux-gnu/bin:$PATH
 export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu/lib:$LD_LIBRARY_PATH
 
-
-########################################################################
-#  Bootstrap
-# Should say:
-# "vlc aliases : cvlc rvlc qvlc svlc"
-# Don't proceed if qvlc is not listed.
-########################################################################
-
 ########################################################################
 # GCC6
 # Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
@@ -333,7 +324,7 @@ mkdir native
 cd native
 ../bootstrap --enable-ogg --disable-glibc --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt
+--enable-soxr --enable-qt --disable-x265
 make -j 8
 
 cd ../..
