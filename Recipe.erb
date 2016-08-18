@@ -25,10 +25,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # Install what we can via packages
 sudo apt-get update
-sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev \
-libx11-xcb-dev libxcb-image0-dev gzip libopenvg1-mesa-dev software-properties-common \
-libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev \
-libxcb-render-util0-dev libxcb-glx0-dev libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev \
+sudo apt-get -y install  autoconf cvs libopenvg1-mesa-dev software-properties-common \
+libgtk-3-dev libdbus-1-dev libgtk2.0-dev libsystemd-daemon-dev \
 liblivemedia-dev libdc-dev libraw-dev libavc1394-dev libgdk-pixbuf2.0-dev shared-mime-info \
 libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
 python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev libva-dev \
@@ -113,75 +111,75 @@ cd ../..
 # make
 
 # Workaround for contrib qt needing xcb
-cd /usr/src
-wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
-tar -jxvf xcb-proto-1.12.tar.bz2
-cd xcb-proto-1.12
-./configure --prefix=/usr --enable-static
-make -j8
-make install
-
-cd /usr/src
-wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
-tar -jxvf libxcb-1.12.tar.bz2
-cd libxcb-1.12
-sed -i "s/pthread-stubs//" configure
-./configure --prefix=/usr \
-            --enable-xinput   \
-            --without-doxygen \
-            --enable-static
-make
-make install
-
-cd /usr/src
-wget http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.4.0.tar.bz2
-tar -jxvf xcb-util-keysyms-0.4.0.tar.bz2
-cd xcb-util-keysyms-0.4.0
-./configure --prefix=/usr --enable-static
-make -j8
-make install
-
-cd /usr/src
-wget http://ftp.x.org/pub/individual/lib/libXdmcp-1.1.2.tar.bz2
-tar -jxvf libXdmcp-1.1.2.tar.bz2
-cd libXdmcp-1.1.2
-./configure --prefix=/usr --enable-static
-make -j8
-make install
-
-#x11proto too old
-cd /usr/src
-cat > proto.md5 << EOF
-36934d00b00555eaacde9f091f392f97  fontsproto-2.1.3.tar.bz2
-eeeae1f47d43a33ef0d5c56727410326  xproto-7.0.29.tar.bz2
-edd8a73775e8ece1d69515dd17767bfb  scrnsaverproto-1.2.2.tar.bz2
-cfdb57dae221b71b2703f8e2980eaaf4  resourceproto-1.2.0.tar.bz2
-1b4e5dede5ea51906f1530ca1e21d216  recordproto-1.14.2.tar.bz2
-fe86de8ea3eb53b5a8f52956c5cd3174  videoproto-2.3.3.tar.bz2
-a036dc2fcbf052ec10621fd48b68dbb1  xf86dgaproto-2.1.tar.bz2
-4ee175bbd44d05c34d43bb129be5098a  dmxproto-2.3.1.tar.bz2
-EOF
-
-grep -v '^#' proto.md5 | awk '{print $2}' | wget -i- -c \
-    -B https://www.x.org/releases/individual/proto/ &&
-md5sum -c proto.md5
-
-for package in $(grep -v '^#' proto.md5 | awk '{print $2}')
-do
-  packagedir=${package%.tar.bz2}
-  tar -xf $package
-  pushd $packagedir
-  case $packagedir in
-     * )
-      ./configure  --prefix=/usr --enable-static
-    ;;
-  esac
-  make
-  make install
-  popd
-  rm -rf $packagedir
-  /sbin/ldconfig
-done
+# cd /usr/src
+# wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
+# tar -jxvf xcb-proto-1.12.tar.bz2
+# cd xcb-proto-1.12
+# ./configure --prefix=/usr --enable-static
+# make -j8
+# make install
+#
+# cd /usr/src
+# wget http://xcb.freedesktop.org/dist/libxcb-1.12.tar.bz2
+# tar -jxvf libxcb-1.12.tar.bz2
+# cd libxcb-1.12
+# sed -i "s/pthread-stubs//" configure
+# ./configure --prefix=/usr \
+#             --enable-xinput   \
+#             --without-doxygen \
+#             --enable-static
+# make
+# make install
+#
+# cd /usr/src
+# wget http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.4.0.tar.bz2
+# tar -jxvf xcb-util-keysyms-0.4.0.tar.bz2
+# cd xcb-util-keysyms-0.4.0
+# ./configure --prefix=/usr --enable-static
+# make -j8
+# make install
+#
+# cd /usr/src
+# wget http://ftp.x.org/pub/individual/lib/libXdmcp-1.1.2.tar.bz2
+# tar -jxvf libXdmcp-1.1.2.tar.bz2
+# cd libXdmcp-1.1.2
+# ./configure --prefix=/usr --enable-static
+# make -j8
+# make install
+#
+# #x11proto too old
+# cd /usr/src
+# cat > proto.md5 << EOF
+# 36934d00b00555eaacde9f091f392f97  fontsproto-2.1.3.tar.bz2
+# eeeae1f47d43a33ef0d5c56727410326  xproto-7.0.29.tar.bz2
+# edd8a73775e8ece1d69515dd17767bfb  scrnsaverproto-1.2.2.tar.bz2
+# cfdb57dae221b71b2703f8e2980eaaf4  resourceproto-1.2.0.tar.bz2
+# 1b4e5dede5ea51906f1530ca1e21d216  recordproto-1.14.2.tar.bz2
+# fe86de8ea3eb53b5a8f52956c5cd3174  videoproto-2.3.3.tar.bz2
+# a036dc2fcbf052ec10621fd48b68dbb1  xf86dgaproto-2.1.tar.bz2
+# 4ee175bbd44d05c34d43bb129be5098a  dmxproto-2.3.1.tar.bz2
+# EOF
+#
+# grep -v '^#' proto.md5 | awk '{print $2}' | wget -i- -c \
+#     -B https://www.x.org/releases/individual/proto/ &&
+# md5sum -c proto.md5
+#
+# for package in $(grep -v '^#' proto.md5 | awk '{print $2}')
+# do
+#   packagedir=${package%.tar.bz2}
+#   tar -xf $package
+#   pushd $packagedir
+#   case $packagedir in
+#      * )
+#       ./configure  --prefix=/usr --enable-static
+#     ;;
+#   esac
+#   make
+#   make install
+#   popd
+#   rm -rf $packagedir
+#   /sbin/ldconfig
+# done
 
 # x11 libs are too old
 cd /usr/src
@@ -272,22 +270,22 @@ make install
 # Workaround for:
 # Getting warning about outdated gettext
 # Update gettext to 0.19.6
-cd /usr/src
-wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
-tar xvf gettext-0.19.7.tar.gz
-cd gettext-0.19.7
-./configure --prefix=/usr --enable-static
-make -j 8 && make install
-chmod -v 0755 /usr/lib/preloadable_libintl.so
+# cd /usr/src
+# wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
+# tar xvf gettext-0.19.7.tar.gz
+# cd gettext-0.19.7
+# ./configure --prefix=/usr --enable-static
+# make -j 8 && make install
+# chmod -v 0755 /usr/lib/preloadable_libintl.so
 
 #Dep of glibc
-FFI_VERSION=3.0.13
-FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
-wget $FFI_URL
-tar -xvzf libffi-$FFI_VERSION.tar.gz
-cd libffi-$FFI_VERSION
-./configure --prefix=/usr --enable-static
-make -j 8 && make install
+# FFI_VERSION=3.0.13
+# FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
+# wget $FFI_URL
+# tar -xvzf libffi-$FFI_VERSION.tar.gz
+# cd libffi-$FFI_VERSION
+# ./configure --prefix=/usr --enable-static
+# make -j 8 && make install
 #Workaround
 # make[2]: *** [install-recursive] Error 1
 #make[1]: *** [install] Error 2
@@ -295,46 +293,43 @@ make -j 8 && make install
 #make: *** Waiting for unfinished jobs....
 #make[5]: *** [libglib_2_0_la-gdate.lo] Error 1
 #make[5]: *** Waiting for unfinished jobs....
-
-GLIB_VERSION=2.38
-GLIB_MINOR_VERSION=2.38.2
-GLIB_URL=http://ftp.gnome.org/pub/gnome/sources/glib/$GLIB_VERSION/glib-$GLIB_MINOR_VERSION.tar.xz
-cd /usr/src
-wget $GLIB_URL
-tar -xvf glib-$GLIB_MINOR_VERSION.tar.xz
-cd glib-$GLIB_MINOR_VERSION
-./configure --prefix=/usr --enable-static
-make -j 8 && make install
-
-cd /vlc
+#
+# GLIB_VERSION=2.38
+# GLIB_MINOR_VERSION=2.38.2
+# GLIB_URL=http://ftp.gnome.org/pub/gnome/sources/glib/$GLIB_VERSION/glib-$GLIB_MINOR_VERSION.tar.xz
+# cd /usr/src
+# wget $GLIB_URL
+# tar -xvf glib-$GLIB_MINOR_VERSION.tar.xz
+# cd glib-$GLIB_MINOR_VERSION
+# ./configure --prefix=/usr --enable-static
+# make -j 8 && make install
+#
+# cd /vlc
 
 ########################################################################
 # The "Contrib" method.
 # If the libraries are not provided by your distribution,
 # you may be better off linking VLC with them statically.
 ########################################################################
+#Add new tools to PATH
 export PATH=/vlc/extras/tools/build/bin/:/vlc/contrib/x86_64-linux-gnu/bin:$PATH
 export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu/lib:$LD_LIBRARY_PATH
+
+#Workaround for piles and piles of undefined references in several contribs.
+LIBS=-lm
+CC=gcc
+CPPFLAGS="$(pkg-config  --libs libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
+xpm  xaw6  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
+xfont  xft  xi  xinerama  xrandr  xres  xtst  xv  xvmc  xxf86dga \
+xxf86vm  dmx  pciaccess  xkbfile  xshmfence)"
+CPPFLAGS+="-lm"
+echo "${CPPFLAGS}"
 
 ########################################################################
 # GCC6
 # Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
 # contribs also had many gcc6 failures. So only building vlc itself with gcc6 as requested.
 ########################################################################
-#Workaround for piles and piles of undefined references in several contribs.
-LIBS=-lm
-CC=gcc
-CFLAGS+="-O2 -g -O0"
-CFLAGS="$(pkg-config --cflags libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
-xpm  xaw6  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
-xfont  xft  xi  xinerama  xrandr  xres  xtst  xv  xvmc  xxf86dga \
-xxf86vm  dmx  pciaccess  xkbfile  xshmfence) $(CFLAGS)"
-echo "${CFLAGS}"
-LDLIBS="$(pkg-config --libs libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  libxfont  libxext  libfs  libice  libsm  libxscrnsaver  libxt  libxmu \
-libxpm  libxaw  libxfixes  libxcomposite  libxrender  libxcursor  libxdamage  libfontenc \
-libxfont  libxft  libxi  libxinerama  libxrandr  libxres  libxtst  libxv  libxvmc  libxxf86dga \
-libxxf86vm  libdmx  libpciaccess  libxkbfile  libxshmfence) $(LIBS)"
-
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
@@ -343,9 +338,9 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-ogg --disable-glibc --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
+../bootstrap --enable-ogg --enable-ffi --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt --enable-x265
+--enable-soxr --enable-qt --enable-x265 --enable-glib --enable-gettext enable-xcb --enable-xproto
 make -j 8
 
 cd ../..
