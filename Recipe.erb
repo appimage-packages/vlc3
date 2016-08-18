@@ -15,8 +15,8 @@
 export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 # Build failures without this, putting at top for consistancy
-export CFLAGS="-fPIC"
-export CXXFLAGS="-lm  -lpthread"
+#export CFLAGS="-fPIC"
+#export CXXFLAGS="-Wl,--no-as-needed"
 VLC_PREFIX=/app
 ARCH=$(arch)
 APP=<%= name %>
@@ -49,7 +49,7 @@ cd /usr/src
 wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
 tar -jxvf util-macros-1.19.0.tar.bz2
 cd util-macros-1.19.0
-./configure --prefix /usr
+./configure --prefix /usr --enable-static
 make install
 
 ########################################################################
@@ -73,8 +73,8 @@ sed -i 's/-static//' contrib/src/qt/rules.mak
 #[00007fe334c49f08] core decoder error: corrupt module: /tmp/.mount_0vIaSC/usr/lib/vlc/plugins/codec/libavcodec_plugin.so
 #[00007fe334c49f08] core decoder error: Codec `h264' (H264 - MPEG-4 AVC (part 10)) is not supported.
 # Looks like building libraries static is causing issues in appimage
-sed -i 's/--enable-static//' contrib/src/ffmpeg/rules.mak
-sed -i 's/--disable-shared/--enable-shared/' contrib/src/ffmpeg/rules.mak
+#sed -i 's/--enable-static//' contrib/src/ffmpeg/rules.mak
+#sed -i 's/--disable-shared/--enable-shared/' contrib/src/ffmpeg/rules.mak
 # sed -i 's/-DENABLE_SHARED=OFF/-DENABLE_SHARED=ON\s-DSTATIC_LINKING=FALSE/' contrib/src/x265/rules.mak
 # sed -i '/$(APPLY)/d' contrib/src/x265/rules.mak
 
@@ -105,19 +105,19 @@ cd ../..
 ########################################################################
 # codecs will not load in appimage, google suggests it is an issue of static libs. The mak file
 # of x265 is causing issues forcing static, try from source.
-export TERM=xterm
-wget https://bitbucket.org/multicoreware/x265/downloads/x265_1.9.tar.gz
-tar -xvzf x265_1.9.tar.gz
-cd x265_1.9/build
-cmake ../source
-make
+# export TERM=xterm
+# wget https://bitbucket.org/multicoreware/x265/downloads/x265_1.9.tar.gz
+# tar -xvzf x265_1.9.tar.gz
+# cd x265_1.9/build
+# cmake ../source
+# make
 
 # Workaround for contrib qt needing xcb
 cd /usr/src
 wget http://xcb.freedesktop.org/dist/xcb-proto-1.12.tar.bz2
 tar -jxvf xcb-proto-1.12.tar.bz2
 cd xcb-proto-1.12
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j8
 make install
 
@@ -129,6 +129,7 @@ sed -i "s/pthread-stubs//" configure
 ./configure --prefix=/usr \
             --enable-xinput   \
             --without-doxygen
+            --enable-static
 make
 make install
 
@@ -136,7 +137,7 @@ cd /usr/src
 wget http://xcb.freedesktop.org/dist/xcb-util-keysyms-0.4.0.tar.bz2
 tar -jxvf xcb-util-keysyms-0.4.0.tar.bz2
 cd xcb-util-keysyms-0.4.0
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j8
 make install
 
@@ -144,7 +145,7 @@ cd /usr/src
 wget http://ftp.x.org/pub/individual/lib/libXdmcp-1.1.2.tar.bz2
 tar -jxvf libXdmcp-1.1.2.tar.bz2
 cd libXdmcp-1.1.2
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j8
 make install
 
@@ -172,7 +173,7 @@ do
   pushd $packagedir
   case $packagedir in
      * )
-      ./configure  --prefix=/usr
+      ./configure  --prefix=/usr --enable-static
     ;;
   esac
   make
@@ -232,14 +233,16 @@ do
   case $packagedir in
     libXfont-[0-9]* )
       ./configure  --prefix=/usr \
-       --disable-devel-docs
+       --disable-devel-docs \
+       --enable-static
     ;;
     libXt-[0-9]* )
       ./configure  --prefix=/usr \
-      --with-appdefaultdir=/etc/X11/app-defaults
+      --with-appdefaultdir=/etc/X11/app-defaults \
+      --enable-static
     ;;
     * )
-      ./configure  --prefix=/usr
+      ./configure  --prefix=/usr --enable-static
     ;;
   esac
   make
@@ -255,7 +258,7 @@ cd /usr/src
 wget http://people.freedesktop.org/~aplattner/vdpau/libvdpau-0.8.tar.gz
 tar -xvzf libvdpau-0.8.tar.gz
 cd libvdpau-0.8
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j8
 make install
 
@@ -273,7 +276,7 @@ cd /usr/src
 wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
 tar xvf gettext-0.19.7.tar.gz
 cd gettext-0.19.7
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j 8 && make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 
@@ -283,7 +286,7 @@ FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
 wget $FFI_URL
 tar -xvzf libffi-$FFI_VERSION.tar.gz
 cd libffi-$FFI_VERSION
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j 8 && make install
 #Workaround
 # make[2]: *** [install-recursive] Error 1
@@ -300,7 +303,7 @@ cd /usr/src
 wget $GLIB_URL
 tar -xvf glib-$GLIB_MINOR_VERSION.tar.xz
 cd glib-$GLIB_MINOR_VERSION
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-static
 make -j 8 && make install
 
 cd /vlc
@@ -328,7 +331,7 @@ mkdir native
 cd native
 ../bootstrap --enable-ogg --disable-glibc --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---disable-soxr --enable-qt --disable-x265
+--enable-soxr --enable-qt --enable-x265
 make -j 8
 
 cd ../..
