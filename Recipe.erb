@@ -325,8 +325,8 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 LIBS=-lm
 CC=gcc
 CFLAGS+="-O2 -g -O0"
-CFLAGS=$(pkg-config --cflags libavformat libavcodec libswscale libavutil x11 libva libvdpau) $(CFLAGS)
-LDLIBS=$(pkg-config --libs libavformat libavcodec libswscale libavutil x11 libva libvdpau) $(LIBS)
+CFLAGS=$(pkg-config --cflags libavformat libavcodec libswscale libavutil x11 libva vdpau) $(CFLAGS)
+LDLIBS=$(pkg-config --libs libavformat libavcodec libswscale libavutil x11 libva vdpau) $(LIBS)
 
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
