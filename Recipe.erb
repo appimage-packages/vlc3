@@ -36,18 +36,18 @@ libsecret-1-dev libxt-dev libfontenc-dev curl unzip gstreamer1.0-plugins-base me
 libsoxr-dev
 
 #Workaround for piles and piles of undefined references in several contribs.
-FFMPEG_LIBS=    libavdevice          \
-                libavformat                          \
-                libavfilter                             \
-                libavcodec                           \
-                libswresample                     \
-                libswscale                           \
-                libavutil
+FFMPEG_LIBS=libavdevice \
+libavformat                          \
+libavfilter                             \
+libavcodec                           \
+libswresample                     \
+libswscale                           \
+libavutil
 
-PKG_CFG_LIBS=   x11                \
-                vdpau                              \
-                libva                                \
-                $(FFMPEG_LIBS)
+PKG_CFG_LIBS=x11                \
+vdpau                              \
+libva                                \
+$(FFMPEG_LIBS)
 LIBS = -lm
 CC = gcc
 CFLAGS += -O2 -g -O0
