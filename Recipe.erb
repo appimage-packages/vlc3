@@ -24,7 +24,7 @@ VERSION=3.0.0-git
 export DEBIAN_FRONTEND=noninteractive
 
 # Install what we can via packages
-sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get update
 sudo apt-get -y install  autoconf cvs libxcb-shm0-dev libxcb-xv0-dev libxcb-composite0-dev libxcb-randr0-dev \
 libx11-xcb-dev libxcb-image0-dev gzip libopenvg1-mesa-dev software-properties-common \
 libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxrender-dev libxcb-shape0-dev libxcb-randr0-dev \
@@ -128,7 +128,7 @@ cd libxcb-1.12
 sed -i "s/pthread-stubs//" configure
 ./configure --prefix=/usr \
             --enable-xinput   \
-            --without-doxygen
+            --without-doxygen \
             --enable-static
 make
 make install
