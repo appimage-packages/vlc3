@@ -35,13 +35,6 @@ python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libud
 libsecret-1-dev libxt-dev libfontenc-dev curl unzip gstreamer1.0-plugins-base mercurial libpulse-dev \
 libsoxr-dev
 
-#Workaround for piles and piles of undefined references in several contribs.
-LIBS=-lm
-CC=gcc
-CFLAGS+="-O2 -g -O0"
-CFLAGS=$(pkg-config --cflags libavformat libavcodec libswscale libavutil x11 libva) $(CFLAGS)
-LDLIBS=$(pkg-config --libs libavformat libavcodec libswscale libavutil x11 libva) $(LIBS)
-
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
 # autoreconf: running: automake --add-missing --copy --force-missing
@@ -328,6 +321,13 @@ export LD_LIBRARY_PATH=/vlc/extras/tools/build/lib:/vlc/contrib/x86_64-linux-gnu
 # Cannot use new gcc6 on extra-tools to ragel failure http://osdir.com/ml/general/2016-01/msg26911.html
 # contribs also had many gcc6 failures. So only building vlc itself with gcc6 as requested.
 ########################################################################
+#Workaround for piles and piles of undefined references in several contribs.
+LIBS=-lm
+CC=gcc
+CFLAGS+="-O2 -g -O0"
+CFLAGS=$(pkg-config --cflags libavformat libavcodec libswscale libavutil x11 libva libvdpau) $(CFLAGS)
+LDLIBS=$(pkg-config --libs libavformat libavcodec libswscale libavutil x11 libva libvdpau) $(LIBS)
+
 sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
 sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
