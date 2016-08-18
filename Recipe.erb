@@ -40,7 +40,7 @@ LIBS=-lm
 CC=gcc
 CFLAGS+="-O2 -g -O0"
 CFLAGS=$(pkg-config --cflags libavdevice libavformat libavfilter libavcodec libswresample libswscale libavutil x11 vdpau libva) $(CFLAGS)
-LDLIBS=$(pkg-config --libs libavdevice libavformat libavfilter libavcodec libswresample libswscale libavutil x11 vdpau libva) $(LIBS)
+LDLIBS=$(pkg-config --libs libavdevice libavformat libavfilter libavcodec libswresample libswscale libavutil x11 libva) $(LIBS)
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
