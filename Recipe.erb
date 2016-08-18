@@ -326,7 +326,7 @@ LIBS=-lm
 CC=gcc
 CFLAGS+="-O2 -g -O0"
 CFLAGS="$(pkg-config --cflags libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
-xpm  xaw  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
+xpm  xaw6  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
 xfont  xft  xi  xinerama  xrandr  xres  xtst  xv  xvmc  xxf86dga \
 xxf86vm  dmx  pciaccess  xkbfile  xshmfence) $(CFLAGS)"
 echo "${CFLAGS}"
