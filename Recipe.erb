@@ -57,7 +57,7 @@ make install
 cd /
 git clone git://git.videolan.org/vlc.git --depth 1
 cd vlc
-
+patch -p1 < gpg-error_gettext_dep.patch
 #Workaround
 #mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
 #mv: cannot stat '/vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a': No such file or directory
@@ -268,13 +268,13 @@ cd ../..
 #make: *** [.gpg-error] Error 1
 #make: *** Waiting for unfinished jobs....
 # In other words build order is broken.
-cd /usr/src
-wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
-tar xvf gettext-0.19.7.tar.gz
-cd gettext-0.19.7
-./configure --prefix=/usr --enable-static
-make -j 8 && make install
-chmod -v 0755 /usr/lib/preloadable_libintl.so
+# cd /usr/src
+# wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
+# tar xvf gettext-0.19.7.tar.gz
+# cd gettext-0.19.7
+# ./configure --prefix=/usr --enable-static
+# make -j 8 && make install
+# chmod -v 0755 /usr/lib/preloadable_libintl.so
 
 #Dep of glibc
 # FFI_VERSION=3.0.13
@@ -323,12 +323,12 @@ sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
-cd contrib
+cd /vlc/contrib
 mkdir native
 cd native
 ../bootstrap --enable-ogg --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt --enable-x265 --enable-glib --disable-gettext --enable-xcb --enable-xproto
+--enable-soxr --enable-qt --enable-x265 --enable-glib --enable-gettext --enable-xcb --enable-xproto
 make -j 8
 
 cd ../..
