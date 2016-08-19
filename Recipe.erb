@@ -517,7 +517,7 @@ make install
 # Build VLC itself
 ########################################################################
 cd /vlc
-
+CFLAGS=-fPIC
 ./bootstrap
 ./configure --disable-chromaprint --disable-bluray --enable-alsa=true --enable-pulse=true --disable-chromecast \
 --prefix=$VLC_PREFIX/usr
