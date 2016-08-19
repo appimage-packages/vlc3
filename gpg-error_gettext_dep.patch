@@ -6,7 +6,7 @@ index 1975559..0740b7a 100644
  endif
  endif
  
-+DEPS_libgpg-error = gettext
++DEPS_gpg-error = gettext
 +
  .gpg-error: libgpg-error
  	$(RECONF)
