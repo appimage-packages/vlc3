@@ -337,6 +337,7 @@ sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
+export CFLAG+="-fPIC"
 cd /vlc/contrib
 mkdir native
 cd native
