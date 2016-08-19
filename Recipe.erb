@@ -300,13 +300,6 @@ tar -xvzf libffi-$FFI_VERSION.tar.gz
 cd libffi-$FFI_VERSION
 ./configure --prefix=/usr --enable-static
 make -j 8 && make install
-Workaround
-make[2]: *** [install-recursive] Error 1
-make[1]: *** [install] Error 2
-make: *** [.glib] Error 2
-make: *** Waiting for unfinished jobs....
-make[5]: *** [libglib_2_0_la-gdate.lo] Error 1
-make[5]: *** Waiting for unfinished jobs....
 
 GLIB_VERSION=2.38
 GLIB_MINOR_VERSION=2.38.2
