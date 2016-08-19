@@ -1,3 +1,4 @@
+#!/bin/bash
 ########################################################################
 # TODO:
 # j-b on #videolan:
@@ -31,7 +32,10 @@ liblivemedia-dev libdc-dev libraw-dev libavc1394-dev libgdk-pixbuf2.0-dev shared
 libopencv-dev libsmbclient-dev libfreerdp-dev libshine-dev libgstreamer1.0-dev libva-x11-1 libva-drm1  \
 python3-dev libprojectm-dev libavahi-client-dev libncurses5-dev libmtp-dev libudev-dev libva-dev \
 libsecret-1-dev libxt-dev libfontenc-dev curl unzip gstreamer1.0-plugins-base mercurial libpulse-dev \
-libsoxr-dev libx11-dev
+libsoxr-dev libx11-dev libfontconfig1-dev libfreetype6-dev libxext-dev libxfixes-dev libxi-dev \
+libxrender-dev libxcb1-dev libx11-xcb-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev \
+libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev \
+libxcb-randr0-dev libxcb-render-util0-dev
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -337,7 +341,7 @@ mkdir native
 cd native
 ../bootstrap --enable-ogg --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt --enable-x265 --disable-glib --disable-gettext --enable-xcb --enable-xproto
+--enable-soxr --enable-qt --enable-x265 --disable-glib --disable-gettext --disable-xcb --enable-xproto
 
 make -j 8
 
