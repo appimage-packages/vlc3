@@ -47,7 +47,7 @@ cd /usr/src
 wget http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
 tar -jxvf util-macros-1.19.0.tar.bz2
 cd util-macros-1.19.0
-./configure --prefix /usr --enable-static
+./configure --prefix /usr
 make install
 
 ########################################################################
@@ -316,7 +316,7 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 cd contrib
 mkdir native
 cd native
-../bootstrap --enable-ogg --enable-ffi --disable-iconv --enable-xau --disable-bluray --disable-xcb --disable-cddb --enable-lua \
+../bootstrap --enable-ogg --enable-ffi --disable-iconv --enable-xau --disable-bluray --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
 --enable-soxr --enable-qt --enable-x265 --enable-glib --enable-gettext --enable-xcb --enable-xproto
 make -j 8
