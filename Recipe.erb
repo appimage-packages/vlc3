@@ -57,6 +57,7 @@ make install
 cd /
 git clone git://git.videolan.org/vlc.git --depth 1
 cd vlc
+wget https://raw.githubusercontent.com/appimage-packages/vlc3/master/gpg-error_gettext_dep.patch
 patch -p1 < gpg-error_gettext_dep.patch
 #Workaround
 #mv /vlc/contrib/x86_64-linux-gnu/plugins/platforms/libqwindows.a /vlc/contrib/x86_64-linux-gnu/lib/ && rm -rf /vlc/contrib/x86_64-linux-gnu/plugins
