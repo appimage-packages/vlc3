@@ -330,7 +330,9 @@ cd native
 ../bootstrap --enable-ogg --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
 --enable-soxr --enable-qt --enable-x265 --enable-glib --enable-gettext --enable-xcb --enable-xproto
-make -j 1
+make gettext
+
+make -j 8
 
 cd ../..
 
