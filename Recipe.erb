@@ -457,15 +457,15 @@ cd libvdpau-0.8
 make -j8
 make install
 
-#Workaround for piles and piles of undefined references in several contribs.
-LIBS=-lm
-CC=gcc
-CPPFLAGS="$(pkg-config  --libs libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
-xpm  xaw6  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
-xfont  xft  xi  xinerama  xrandr  xres  xtst  xv  xvmc  xxf86dga \
-xxf86vm  dmx  pciaccess  xkbfile  xshmfence)"
-CPPFLAGS+="-lm"
-echo "${CPPFLAGS}"
+# #Workaround for piles and piles of undefined references in several contribs.
+# LIBS=-lm
+# CC=gcc
+# CPPFLAGS="$(pkg-config  --libs libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
+# xpm  xaw6  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
+# xfont  xft  xi  xinerama  xrandr  xres  xtst  xv  xvmc  xxf86dga \
+# xxf86vm  dmx  pciaccess  xkbfile  xshmfence)"
+# CPPFLAGS+="-lm"
+# echo "${CPPFLAGS}"
 
 # librsvg stack is entirely broken
 # Disable whole librsvg stack as contribs disables glib in harfbuzz despite librsvg
