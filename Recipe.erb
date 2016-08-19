@@ -269,7 +269,7 @@ cd ../..
 #make: *** [.gpg-error] Error 1
 #make: *** Waiting for unfinished jobs....
 # In other words build order is broken.
-# Included patch adding DEPS_gpg-error = gettext did not have the success I was hoping for. 
+# Included patch adding DEPS_gpg-error = gettext did not have the success I was hoping for.
 cd /usr/src
 wget -c -T 10 ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
 tar xvf gettext-0.19.7.tar.gz
@@ -278,33 +278,47 @@ cd gettext-0.19.7
 make -j 8 && make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
 
-#Dep of glibc
-# FFI_VERSION=3.0.13
-# FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
-# wget $FFI_URL
-# tar -xvzf libffi-$FFI_VERSION.tar.gz
-# cd libffi-$FFI_VERSION
-# ./configure --prefix=/usr --enable-static
-# make -j 8 && make install
-#Workaround
-# make[2]: *** [install-recursive] Error 1
-#make[1]: *** [install] Error 2
-#make: *** [.glib] Error 2
-#make: *** Waiting for unfinished jobs....
+#Workaround for glibc and gcc6
+#gdate.c: In function 'g_date_strftime':
+#gdate.c:2497:7: error: format not a string literal, format string not checked [-Werror=format-nonliteral]
+#       tmplen = strftime (tmpbuf, tmpbufsize, locale_format, &tm);
+#       ^~~~~~
+#  CC       libglib_2_0_la-gdir.lo
+#  CC       libglib_2_0_la-genviron.lo
+#  CC       libglib_2_0_la-gerror.lo
+#  CC       libglib_2_0_la-gfileutils.lo
+#  CC       libglib_2_0_la-ggettext.lo
+#  CC       libglib_2_0_la-ghash.lo
+#cc1: some warnings being treated as errors
 #make[5]: *** [libglib_2_0_la-gdate.lo] Error 1
-#make[5]: *** Waiting for unfinished jobs....
-#
-# GLIB_VERSION=2.38
-# GLIB_MINOR_VERSION=2.38.2
-# GLIB_URL=http://ftp.gnome.org/pub/gnome/sources/glib/$GLIB_VERSION/glib-$GLIB_MINOR_VERSION.tar.xz
-# cd /usr/src
-# wget $GLIB_URL
-# tar -xvf glib-$GLIB_MINOR_VERSION.tar.xz
-# cd glib-$GLIB_MINOR_VERSION
-# ./configure --prefix=/usr --enable-static
-# make -j 8 && make install
-#
-# cd /vlc
+#make[5]: *** Waiting for unfinished jobs..''
+# ffi is a dep of glib
+FFI_VERSION=3.0.13
+FFI_URL=ftp://sourceware.org/pub/libffi/libffi-$FFI_VERSION.tar.gz
+wget $FFI_URL
+tar -xvzf libffi-$FFI_VERSION.tar.gz
+cd libffi-$FFI_VERSION
+./configure --prefix=/usr --enable-static
+make -j 8 && make install
+Workaround
+make[2]: *** [install-recursive] Error 1
+make[1]: *** [install] Error 2
+make: *** [.glib] Error 2
+make: *** Waiting for unfinished jobs....
+make[5]: *** [libglib_2_0_la-gdate.lo] Error 1
+make[5]: *** Waiting for unfinished jobs....
+
+GLIB_VERSION=2.38
+GLIB_MINOR_VERSION=2.38.2
+GLIB_URL=http://ftp.gnome.org/pub/gnome/sources/glib/$GLIB_VERSION/glib-$GLIB_MINOR_VERSION.tar.xz
+cd /usr/src
+wget $GLIB_URL
+tar -xvf glib-$GLIB_MINOR_VERSION.tar.xz
+cd glib-$GLIB_MINOR_VERSION
+./configure --prefix=/usr --enable-static
+make -j 8 && make install
+
+cd /vlc
 
 ########################################################################
 # The "Contrib" method.
@@ -330,7 +344,7 @@ mkdir native
 cd native
 ../bootstrap --enable-ogg --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt --enable-x265 --enable-glib --disable-gettext --enable-xcb --enable-xproto
+--enable-soxr --enable-qt --enable-x265 --disable-glib --disable-gettext --enable-xcb --enable-xproto
 
 make -j 8
 
