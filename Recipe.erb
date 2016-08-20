@@ -36,7 +36,7 @@ libsoxr-dev libx11-dev libfontconfig1-dev libfreetype6-dev libxext-dev libxfixes
 libxrender-dev libxcb1-dev libx11-xcb-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev \
 libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev \
 libxcb-randr0-dev libxcb-render-util0-dev libxcb-xinerama0-dev libxcb-composite0-dev \
-libxcb-xv0-dev
+libxcb-xv0-dev libsoxr-dev
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -339,12 +339,13 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 
 export CFLAGS+="-fPIC"
 export CXXFLAGS+="-lm"
+echo $CXXFLAGS
 cd /vlc/contrib
 mkdir native
 cd native
 ../bootstrap --enable-ogg --disable-ffi --disable-iconv --enable-xau --disable-bluray --disable-cddb --enable-lua \
 --enable-libdsm --enable-mfx --enable-fluidlite --disable-aribb25 --enable-jack --enable-fluid \
---enable-soxr --enable-qt --enable-x265 --disable-glib --disable-gettext --disable-xcb --enable-xproto
+--disable-soxr --enable-qt --enable-x265 --disable-glib --disable-gettext --disable-xcb --enable-xproto
 
 make -j 8
 
