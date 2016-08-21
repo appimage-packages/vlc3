@@ -36,7 +36,7 @@ libsoxr-dev libx11-dev libfontconfig1-dev libfreetype6-dev libxext-dev libxfixes
 libxrender-dev libxcb1-dev libx11-xcb-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev \
 libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev \
 libxcb-randr0-dev libxcb-render-util0-dev libxcb-xinerama0-dev libxcb-composite0-dev \
-libxcb-xv0-dev libsoxr-dev libupnp6-dev
+libxcb-xv0-dev libsoxr-dev libupnp6-dev libvdpau-dev
 
 # Don't use ubuntu libtool as it is too old.
 # Workaround for
@@ -318,6 +318,16 @@ make -j 8 && make install
 
 cd /vlc
 
+#libvpau is not found by vlc so my guess it is too old. Moving it to top so that
+# it is built before the new protoc which is incompatible.
+# cd /usr/src
+# wget http://people.freedesktop.org/~aplattner/vdpau/libvdpau-0.8.tar.gz
+# tar -xvzf libvdpau-0.8.tar.gz
+# cd libvdpau-0.8
+# ./configure --prefix=/usr --enable-static
+# make -j8
+# make install
+
 ########################################################################
 # The "Contrib" method.
 # If the libraries are not provided by your distribution,
@@ -451,16 +461,6 @@ make install
 #   rm -rf $packagedir
 #   /sbin/ldconfig
 # done
-
-#libvpau is not found by vlc so my guess it is too old. Moving it to top so that
-# it is built before the new protoc which is incompatible.
-cd /usr/src
-wget http://people.freedesktop.org/~aplattner/vdpau/libvdpau-0.8.tar.gz
-tar -xvzf libvdpau-0.8.tar.gz
-cd libvdpau-0.8
-./configure --prefix=/usr --enable-static
-make -j8
-make install
 
 # #Workaround for piles and piles of undefined references in several contribs.
 # LIBS=-lm
