@@ -348,8 +348,8 @@ sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
 export CFLAGS+="-fPIC"
-export CXXFLAGS+="-lm"
-echo $CXXFLAGS
+export LDLIBS+="-lm -lpthread -lX11 -lvdpau"
+echo $LDLIBS
 cd /vlc/contrib
 mkdir native
 cd native
