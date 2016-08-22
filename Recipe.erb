@@ -349,8 +349,9 @@ sudo apt-get update
 sudo apt-get --yes install  gcc-6 g++-6
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6
 
-CFLAGS+="-fPIC"
-export CFLAGS="$(pkg-config --cflags libavutil)" $CFLAGS
+
+export CFLAGS="$(pkg-config --cflags libavutil)"
+export CFLAGS+="-fPIC"
 # #Workaround for piles and piles of undefined references in several contribs.
 LIBS=-lm
 CC=gcc
