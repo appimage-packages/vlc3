@@ -353,7 +353,7 @@ export CFLAGS+="-fPIC"
 # #Workaround for piles and piles of undefined references in several contribs.
 LIBS=-lm
 CC=gcc
-CPPFLAGS="$(pkg-config  --libs libavformat libavcodec libswscale libavutil libva vdpau xtrans  x11  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
+CPPFLAGS="$(pkg-config  --libs  x11 libavformat libavcodec libswscale libavutil libva vdpau xtrans  xfont  xext  libfs  ice  sm  xscrnsaver xt  xmu \
 xpm  xaw7  xfixes  xcomposite  xrender  xcursor  xdamage  fontenc \
 xfont  xft  xi  xinerama  xrandr  xres  xtst  xv  xvmc  xxf86dga \
 xxf86vm  dmx  pciaccess  xkbfile  xshmfence)"
