@@ -22,7 +22,7 @@ export ACLOCAL_PATH=/app/usr/share/aclocal:/usr/share/aclocal:$ACLOCAL_PATH
 #export CXXFLAGS="-Wl,--no-as-needed"
 VLC_PREFIX=/app/usr
 ARCH=$(arch)
-APP=<%= name %>
+APP=vlc
 VERSION=3.0.0-git
 export DEBIAN_FRONTEND=noninteractive
 
