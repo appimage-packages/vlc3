@@ -87,8 +87,8 @@ if host == "scarlett-neon\n"
 
 else
   @c.start( 'Privileged' => true,
-                    'Binds' => ["/home/jenkins/workspace/appimage-plasmazilla/:/in",
-                             "/home/jenkins/workspace/appimage-plasmazilla/out:/out",
+                    'Binds' => ["/home/jenkins/workspace/appimage-vlc3/:/in",
+                             "/home/jenkins/workspace/appimage-vlc3/out:/out",
                              "/lib/modules:/lib/modules",
                              "/tmp:/tmp"])
 end
