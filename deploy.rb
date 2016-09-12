@@ -15,16 +15,14 @@
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
+# Lesser General Public License fo-r more details.
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-
-require_relative 'generate_recipe.rb'
-require_relative 'builddocker.rb'
+require_relative 'libs/builddocker.rb'
 require 'fileutils'
 
 builder = CI.new
-builder.run = [CI::Build.new()]
-builder.cmd = %w[bash -ex /in/Recipe ; apt-get clean ; rm -rf /usr/src ; rm -rf /out ; rm -rf /VLC/VLC.AppDir ; rm -rf /VLC/vlc-*.tar.xz]
+builder.run = [CI::Build.new('vlc3')]
+builder.cmd = %w[rspec /in/spec/recipe_rspec.rb --fail-fast]
 builder.create_container

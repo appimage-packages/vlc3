@@ -1,2 +1,2 @@
-# appimage-xdgurl
-Appimage for xdgurl
+# appimage-template
+Templates used to create non-KDE appimages
