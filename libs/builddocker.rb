@@ -46,8 +46,8 @@ class CI
   attr_accessor :run
   attr_accessor :cmd
 
-  Docker.options[:read_timeout] = 1 * 120 * 120 # 1 hour
-  Docker.options[:write_timeout] = 1 * 120 * 60 # 1 hour
+  Docker.options[:read_timeout] = 1 * 160 * 160 # 1 hour
+  Docker.options[:write_timeout] = 1 * 160 * 160 # 1 hour
 
   def create_container
     init_logging
@@ -57,6 +57,7 @@ class CI
       'Volumes' => {
         '/in' => {},
         '/out' => {},
+        '/app' => {},
         '/lib/modules' => {},
         '/tmp' => {}
       },
@@ -85,11 +86,15 @@ if host == "scarlett-neon\n"
                                "/home/scarlett/appimage-packaging/appimage-template/out:/out",
                                "/tmp:/tmp",
                                "/home/scarlett/appimage-packaging/appimage-template/app:/app"])
-
+elsif  host == "scarlett-maui\n"
+  @c.start( 'Privileged' => true,
+                      'Binds' => ["/home/scarlett/vlc3:/in",
+                               "/home/scarlett/vlc3/out:/out",
+                               "/tmp:/tmp",
+                               "/home/scarlett/vlc3/app:/app"])
 else
   @c.start( 'Privileged' => true,
                     'Binds' => ["/home/jenkins/workspace/appimage-${name}/:/in",
-                             "/home/jenkins/workspace/appimage-${name}/out:/out",
                              "/tmp:/tmp",
                               "/home/jenkins/workspace/appimage-${name}/app:/app"])
 end

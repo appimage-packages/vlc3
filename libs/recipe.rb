@@ -39,6 +39,7 @@ class Recipe
   attr_accessor :configure_options
 
   def initialize(args = {})
+    Dir.chdir('/')
     self.name = args[:name]
     self.arch = `arch`
     self.install_path = '/app/usr'
@@ -47,35 +48,23 @@ class Recipe
   end
 
   def clean_workspace(args = {})
-    system('rm -rv /app/*')
-    system('rm -rv /out/*')
+    return if Dir['/app/'].empty?
+    FileUtils.rm_rf("/app/.", secure: true)
+    return if Dir['/out/'].empty?
+    FileUtils.rm_rf("/out/.", secure: true)
   end
 
   def install_packages(args = {})
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
+    # system('sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test')
+    # system('sudo apt-get update')
+    # system('sudo apt-get -y install  gcc-6 g++-6')
+    # system('sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6')
+    system('sudo apt-get update && sudo apt-get upgrade')
     system("sudo apt-get -y install git wget #{packages}")
+    system('sudo apt-get -y remove cmake')
     $?.exitstatus
   end
-
-  def clone_repo(args = {})
-    Dir.mkdir("/app/src")
-    self.repo = args[:repo]
-    p "#{repo}"
-    Dir.chdir('/app/src/') do
-      system("git clone #{repo}")
-    end
-    $?.exitstatus
-  end
-
-  def get_archives(args = {})
-      self.archives = args[:archives]
-      self.sum = args[:md5sum]
-      Dir.chdir('/app/src/')
-      archives.each do |arch|
-        system("wget #{arch}")
-        end
-      $?.exitstatus
-    end
 
   def get_git_version(args = {})
     Dir.chdir("/app/src/#{name}") do
@@ -84,18 +73,7 @@ class Recipe
     end
   end
 
-  def build_make(args = {})
-    self.configure_options = args[:configure_options]
-    Dir.chdir("/app/src/#{name}") do
-      File.exist?("configure") do
-        system("./configure --prefix=/app/usr' #{configure_options}")
-      end
-      system('make -j 8 && sudo make install prefix=/app/usr')
-    end
-    $?.exitstatus
-  end
-
-  def gather_integration(args = {})
+    def gather_integration(args = {})
     self.desktop = args[:desktop]
     Dir.chdir('/app') do
       system("cp ./usr/share/applications/#{desktop}.desktop .")

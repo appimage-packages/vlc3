@@ -19,22 +19,28 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 require_relative '../libs/recipe'
+require_relative '../libs/sources'
 require 'yaml'
 
 metadata = YAML.load_file("/in/spec/metadata.yml")
+deps = metadata['dependencies']
 puts metadata
 
 describe Recipe do
   app = Recipe.new(name: metadata['name'])
   describe "#initialize" do
     it "Sets the application name" do
-      expect(app.name).to eq 'default'
+      expect(app.name).to eq metadata['name']
+      expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appimage and it cannot be ommited"
     end
   end
 
   describe 'clean_workspace' do
     it "Cleans the environment" do
-      app.clean_workspace
+      unless Dir["/out/*"].empty? && Dir["/app/*"].empty?
+        Dir.chdir('/')
+        app.clean_workspace
+      end
       expect(Dir["/app/*"].empty?).to be(true), "Please clean up from last build"
       expect(Dir["/out/*"].empty?).to be(true), "AppImage exists, please remove"
     end
@@ -46,28 +52,68 @@ describe Recipe do
     end
   end
 
-  describe 'clone_repo' do
-    it 'Clones necessary repos that need to be built from source' do
-      projecturl = metadata['url']
-      expect(app.clone_repo(repo: projecturl)).to be(0), " Expected 0 exit Status"
+  describe 'build_dep_sources' do
+    it 'Retrieves sources that need to be built from source' do
+      sources = Sources.new
+      deps = metadata['dependencies']
+      deps.each do |dep|
+        name =  dep.values[0]['depname']
+        type = dep.values[0]['source'].values_at('type').to_s.gsub(/\,|\[|\]|\"/, '')
+        url = dep.values[0]['source'].values_at('url').to_s.gsub(/\,|\[|\]|\"/, '')
+        buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
+        options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
+        expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
+        unless "#{name}" == 'cpan'
+          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wront with source retrieval"
+        end
+        expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+      end
     end
   end
 
-  # describe 'get_archives' do
-  #   it 'Uses wget to retrieve archives from the interwebz' do
-  #     expect(app.get_archives(archives: metadata['archives']['loc'])).to be(0), "Expected 0 status"
-  #   end
-  # end
+    describe 'build_kf5' do
+      it 'Builds KDE Frameworks from source' do
+        sources = Sources.new
+        system('pwd && ls')
+        kf5 = metadata['frameworks']
+        need = kf5['build_kf5']
+        frameworks = kf5['frameworks']
+        if need == true
+          frameworks.each do |framework|
+            if framework == 'phonon'
+              options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DBUILD_TESTING=OFF -DPHONON_BUILD_PHONON4QT5=ON'
+              expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+              expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
+              expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            else
+              options = '-DCMAKE_INSTALL_PREFIX:PATH=/app/usr -DBUILD_TESTING=OFF'
+              expect(sources.get_source(framework, 'git', "https://anongit.kde.org/#{framework}")).to be(0), "Expected 0 exit status"
+              expect(Dir.exist?("/app/src/#{framework}")).to be(true), "#{framework} directory does not exist, something went wront with source retrieval"
+              expect(sources.run_build(framework, 'cmake', options)).to be(0), " Expected 0 exit Status"
+            end
+          end
+        end
+      end
+    end
+
+    describe 'build_project' do
+        it 'Retrieves sources that need to be built from source' do
+          #Main project
+          sources = Sources.new
+          name = metadata['name']
+          type = metadata['type']
+          url = metadata['url']
+          buildsystem = metadata['buildsystem']
+          options = metadata['buildoptions']
+          expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
+          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, things will fail"
+          expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
+        end
+    end
 
   describe 'get_git_version' do
     it 'Retrieves the version number from the git repo' do
       expect(app.get_git_version()).not_to be_nil, "Expected the version not to be nil"
-    end
-  end
-
-  describe 'build_make' do
-    it 'Builds makefile source' do
-      expect(app.build_make()).to be(0), " Expected 0 exit Status"
     end
   end
 
