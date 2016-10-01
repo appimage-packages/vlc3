@@ -1,0 +1,5 @@
+CI	/home/scarlett/vlc3/libs/builddocker.rb	/^class CI$/;"	class	line:27
+Build	/home/scarlett/vlc3/libs/builddocker.rb	/^  class Build$/;"	class	line:28	class:CI
+initialize	/home/scarlett/vlc3/libs/builddocker.rb	/^    def initialize(name)$/;"	method	line:29	class:CI.Build
+init_logging	/home/scarlett/vlc3/libs/builddocker.rb	/^  def init_logging$/;"	method	line:36	class:CI
+create_container	/home/scarlett/vlc3/libs/builddocker.rb	/^  def create_container$/;"	method	line:52	class:CI
