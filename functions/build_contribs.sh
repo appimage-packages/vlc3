@@ -7,7 +7,9 @@ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /u
 sed -i '/$(UPDATE_AUTOCONFIG)/d' /app/src/vlc/contrib/src/dca/rules.mak
 sed -i '/$(UPDATE_AUTOCONFIG)/d' /app/src/vlc/contrib/src/dvbpsi/rules.mak
 sed -i '/$(UPDATE_AUTOCONFIG)/d' /app/src/vlc/contrib/src/libmpeg2/rules.mak
-
+sed -i '/$(UPDATE_AUTOCONFIG)/d' /app/src/vlc/contrib/src/libsamplerate/rules.mak
+sed -i '/$(UPDATE_AUTOCONFIG)/d' /app/src/vlc/contrib/src/twolame/rules.mak
+sed -i '/$(UPDATE_AUTOCONFIG)/d' /app/src/vlc/contrib/src/samplerate/rules.mak
 cd /app/src/vlc/contrib
 mkdir native
 cd native
