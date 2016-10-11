@@ -25,11 +25,11 @@ require 'fileutils'
 require 'pty'
 
 system('bundle install')
-
+project = 'vlc'
 builder = CI.new
-builder.run = [CI::Build.new('skanlite')]
+builder.run = [CI::Build.new(project)]
 builder.cmd = %w[rspec /in/spec/recipe_rspec.rb --fail-fast]
-cmd = builder.create_container
+cmd = builder.create_container(project)
 begin
   PTY.spawn( cmd ) do |stdout, stdin, pid|
     begin

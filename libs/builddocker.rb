@@ -49,7 +49,7 @@ class CI
   Docker.options[:read_timeout] = 1 * 260 * 260 # 1 hour
   Docker.options[:write_timeout] = 1 * 260 * 260 # 1 hour
 
-  def create_container
+  def create_container(name)
     init_logging
     @c = Docker::Container.create(
       'Image' => 'sgclark/trusty-minimal',
@@ -82,16 +82,22 @@ host = `hostname`
 
 if host == "scarlett-neon\n"
   @c.start( 'Privileged' => true,
-                      'Binds' => ["/home/scarlett/appimage-packaging/appimage-template:/in",
-                               "/home/scarlett/appimage-packaging/appimage-template/out:/out",
+                      'Binds' => ["/home/scarlett/appimage-packaging/#{name}:/in",
+                               "/home/scarlett/appimage-packaging/#{name}/out:/out",
                                "/tmp:/tmp",
-                               "/home/scarlett/appimage-packaging/appimage-template/app:/app"])
+                               "/home/scarlett/appimage-packaging/#{name}/app:/app"])
 elsif  host == "scarlett-maui\n"
   @c.start( 'Privileged' => true,
-                      'Binds' => ["/home/scarlett/vlc3:/in",
-                               "/home/scarlett/vlc3/out:/out",
+                      'Binds' => ["/home/scarlett/#{name}:/in",
+                               "/home/scarlett/#{name}/out:/out",
                                "/tmp:/tmp",
-                               "/home/scarlett/vlc3/app:/app"])
+                               "/home/scarlett/#{name}/app:/app"])
+elsif  host == "scarlett-neon-unstable\n"
+  @c.start( 'Privileged' => true,
+                      'Binds' => ["/home/scarlett/appimage-packaging/#{name}:/in",
+                               "/home/scarlett/appimage-packaging/#{name}/out:/out",
+                               "/tmp:/tmp",
+                               "/home/scarlett/appimage-packaging/#{name}/app:/app"])
 else
   @c.start( 'Privileged' => true,
                     'Binds' => ["/home/jenkins/workspace/appimage-${name}/:/in",
