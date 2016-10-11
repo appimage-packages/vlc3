@@ -10,3 +10,4 @@ export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 export LIBTOOL=/app/usr/bin/libtool
 # Build failures without this, putting at top for consistancy
 export CFLAGS=-fPIC
+which autoconf

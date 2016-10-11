@@ -78,10 +78,14 @@ class Sources
 
   def run_build(name, buildsystem, options)
     system("/bin/bash -xe /in/functions/env.sh")
-    system("echo $LD_LIBRARY_PATH")
+    ENV['PATH'] = '/app/usr/bin:/app/vlc/extras/tools/build/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+    ENV['LD_LIBRARY_PATH'] = '/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/app/vlc/extras/tools/build/lib:/app/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib:/lib:/lib64'
+    ENV.fetch('PATH')
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
+        p ENV['PATH']
+        p ENV['LD_LIBRARY_PATH']
         p "running ./configure --prefix=/app/usr #{options}"
         system("./configure --prefix=/app/usr #{options}")
         system('make -j 1 && sudo make install prefix=/app/usr')
@@ -89,6 +93,8 @@ class Sources
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
         p "running cmake #{options}"
+        p ENV['PATH']
+        p ENV['LD_LIBRARY_PATH']
         system("/app/usr/bin/cmake #{options}")
         system('make -j 8 && sudo make install')
       end
@@ -96,6 +102,8 @@ class Sources
       unless "#{name}" == 'cpan'
         Dir.chdir("/app/src/#{name}") do
           p "running #{options}"
+          p ENV['PATH']
+          p ENV['LD_LIBRARY_PATH']
           system("#{options}")
         end
       end
@@ -106,6 +114,8 @@ class Sources
     when 'qmake'
       Dir.chdir("/app/src/#{name}") do
         p "running qmake #{options}"
+        p ENV['PATH']
+        p ENV['LD_LIBRARY_PATH']
         system('echo $PATH')
         system("/app/usr/bin/qmake linuxdeployqt.pro")
         system('make -j 8 && sudo make install')
@@ -113,6 +123,8 @@ class Sources
     when 'bootstrap'
       Dir.chdir("/app/src/#{name}") do
         p "running ./bootstrap #{options}"
+        p ENV['PATH']
+        p ENV['LD_LIBRARY_PATH']
         system("./bootstrap #{options}")
         system('make -j 8 && sudo make install')
       end
