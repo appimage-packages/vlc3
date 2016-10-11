@@ -7,5 +7,6 @@ export XDG_RUNTIME_DIR=/tmp/xdg-runtime-dir
 export XDG_CACHE_HOME=/root/.qttest/cache
 export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:$PKG_CONFIG_PATH
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
+export LIBTOOL=/app/usr/bin/libtool
 # Build failures without this, putting at top for consistancy
 export CFLAGS=-fPIC

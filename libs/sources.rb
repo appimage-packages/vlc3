@@ -51,11 +51,22 @@ class Sources
         system("wget #{url}")
         system("tar -xvf #{name}.tar.xz")
       end
+    when 'gz'
+      Dir.chdir('/app/src/')
+      unless Dir.exist?("/app/src/#{name}")
+        system("wget #{url}")
+        system("tar -zxvf #{name}.tar.gz")
+      end
     when 'bz2'
       Dir.chdir('/app/src/')
       unless Dir.exist?("/app/src/#{name}")
         system("wget #{url}")
         system("tar -jxvf #{name}.tar.bz2")
+      end
+    when 'mercurial'
+      Dir.chdir('/app/src')
+      unless Dir.exist?("/app/src/#{name}")
+        system("hg clone #{url}")
       end
     when 'none'
       p "No sources configured"
@@ -73,7 +84,7 @@ class Sources
       Dir.chdir("/app/src/#{name}") do
         p "running ./configure --prefix=/app/usr #{options}"
         system("./configure --prefix=/app/usr #{options}")
-        system('make -j 8 && sudo make install prefix=/app/usr')
+        system('make -j 1 && sudo make install prefix=/app/usr')
       end
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do

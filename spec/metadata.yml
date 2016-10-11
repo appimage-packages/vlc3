@@ -76,7 +76,9 @@ packages:
   - libncurses5-dev
   - flex
   - bison
-  - libsane-dev
+  - m4
+  - autoconf
+  - autogen
 frameworks:
   build_kf5: false
   frameworks:
@@ -153,6 +155,22 @@ dependencies:
       source:
         type: bz2
         url: http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
+  - automake:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: automake-1.15
+      source:
+        type: xz
+        url:  ftp://ftp.gnu.org/gnu/automake/automake-1.15.tar.xz
+  - libtool:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: libtool-2.4.6
+      source:
+        type: gz
+        url: http://ftpmirror.gnu.org/libtool/libtool-2.4.6.tar.gz
   - vlc-tools:
       build:
         buildsystem: custom
@@ -161,6 +179,22 @@ dependencies:
       source:
         type: git
         url: git://git.videolan.org/vlc.git
+  - gettext:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: gettext-0.19.7
+      source:
+        type: gz
+        url: ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
+  - liba52:
+      build:
+        buildsystem: make
+        buildoptions: '--mandir=/usr/share/man --enable-shared --disable-static CFLAGS="-g -O2 -fPIC" '
+      depname: a52dec-0.7.4
+      source:
+        type: gz
+        url: http://liba52.sourceforge.net/files/a52dec-0.7.4.tar.gz
   - vlc-contribs:
       build:
         buildsystem: custom
