@@ -76,7 +76,7 @@ packages:
   - libncurses5-dev
   - flex
   - bison
-  - libsane-dev
+  - m4
 frameworks:
   build_kf5: false
   frameworks:

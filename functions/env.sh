@@ -9,3 +9,4 @@ export PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/v
 export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 # Build failures without this, putting at top for consistancy
 export CFLAGS=-fPIC
+which autoconf

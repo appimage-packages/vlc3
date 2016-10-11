@@ -3,3 +3,99 @@ Build	/home/scarlett/vlc3/libs/builddocker.rb	/^  class Build$/;"	class	line:28	
 initialize	/home/scarlett/vlc3/libs/builddocker.rb	/^    def initialize(name)$/;"	method	line:29	class:CI.Build
 init_logging	/home/scarlett/vlc3/libs/builddocker.rb	/^  def init_logging$/;"	method	line:36	class:CI
 create_container	/home/scarlett/vlc3/libs/builddocker.rb	/^  def create_container$/;"	method	line:52	class:CI
+name	/home/scarlett/vlc3/spec/metadata.yml	/^name: vlc$/;"	function	line:1
+packages	/home/scarlett/vlc3/spec/metadata.yml	/^packages:$/;"	function	line:2
+frameworks	/home/scarlett/vlc3/spec/metadata.yml	/^frameworks:$/;"	function	line:80
+build_kf5	/home/scarlett/vlc3/spec/metadata.yml	/^  build_kf5: false$/;"	function	line:81
+frameworks	/home/scarlett/vlc3/spec/metadata.yml	/^  frameworks:$/;"	function	line:82
+type	/home/scarlett/vlc3/spec/metadata.yml	/^type: git$/;"	function	line:83
+url	/home/scarlett/vlc3/spec/metadata.yml	/^url: "git:\/\/git.videolan.org\/vlc.git"$/;"	function	line:84
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^buildsystem: cmake$/;"	function	line:85
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^buildoptions: "-DCMAKE_INSTALL_PREFIX=\/app\/usr -DBUILD_TESTING=OFF"$/;"	function	line:86
+dep_path	/home/scarlett/vlc3/spec/metadata.yml	/^dep_path:$/;"	function	line:87
+dependencies	/home/scarlett/vlc3/spec/metadata.yml	/^dependencies:$/;"	function	line:90
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:92
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: custom$/;"	function	line:93
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: .\/build.sh$/;"	function	line:94
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: AppImageKit$/;"	function	line:95
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:96
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: git$/;"	function	line:97
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: https:\/\/github.com\/probonopd\/AppImageKit$/;"	function	line:98
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:100
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: make$/;"	function	line:101
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: ''$/;"	function	line:102
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: CMake$/;"	function	line:103
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:104
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: git$/;"	function	line:105
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: https:\/\/github.com\/Kitware\/CMake$/;"	function	line:106
+branch	/home/scarlett/vlc3/spec/metadata.yml	/^        branch: 'v3.0.0'$/;"	function	line:107
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:109
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: custom$/;"	function	line:110
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: .\/configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix \/app\/usr && make && make install$/;"	function	line:111
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: qt-everywhere-opensource-src-5.7.0$/;"	function	line:112
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:113
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: xz$/;"	function	line:114
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: http:\/\/download.qt.io\/archive\/qt\/5.7\/5.7.0\/single\/qt-everywhere-opensource-src-5.7.0.tar.xz$/;"	function	line:115
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:117
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: qmake$/;"	function	line:118
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: linuxdeployqt.pro$/;"	function	line:119
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: linuxdeployqt$/;"	function	line:120
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:121
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: git$/;"	function	line:122
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: https:\/\/github.com\/probonopd\/linuxdeployqt.git$/;"	function	line:123
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:125
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: make$/;"	function	line:126
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: ''$/;"	function	line:127
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: patchelf-0.9$/;"	function	line:128
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:129
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: bz2$/;"	function	line:130
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: https:\/\/nixos.org\/releases\/patchelf\/patchelf-0.9\/patchelf-0.9.tar.bz2$/;"	function	line:131
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:133
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: custom$/;"	function	line:134
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: cpan URI::Escape$/;"	function	line:135
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: cpan$/;"	function	line:136
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:137
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: none$/;"	function	line:138
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: ''$/;"	function	line:139
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:141
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: make$/;"	function	line:142
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: ''$/;"	function	line:143
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: Python-3.5.2$/;"	function	line:144
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:145
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: xz$/;"	function	line:146
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: https:\/\/www.python.org\/ftp\/python\/3.5.2\/Python-3.5.2.tar.xz$/;"	function	line:147
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:149
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: make$/;"	function	line:150
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: ''$/;"	function	line:151
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: util-macros-1.19.0$/;"	function	line:152
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:153
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: bz2$/;"	function	line:154
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: http:\/\/ftp.x.org\/pub\/individual\/util\/util-macros-1.19.0.tar.bz2$/;"	function	line:155
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:157
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: custom$/;"	function	line:158
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: cd \/app\/src\/vlc\/extras\/tools\/ && .\/bootstrap &&  make -j 8$/;"	function	line:159
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: vlc$/;"	function	line:160
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:161
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: git$/;"	function	line:162
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: git:\/\/git.videolan.org\/vlc.git$/;"	function	line:163
+build	/home/scarlett/vlc3/spec/metadata.yml	/^      build:$/;"	function	line:165
+buildsystem	/home/scarlett/vlc3/spec/metadata.yml	/^        buildsystem: custom$/;"	function	line:166
+buildoptions	/home/scarlett/vlc3/spec/metadata.yml	/^        buildoptions: sh \/in\/functions\/build_contribs.sh$/;"	function	line:167
+depname	/home/scarlett/vlc3/spec/metadata.yml	/^      depname: vlc$/;"	function	line:168
+source	/home/scarlett/vlc3/spec/metadata.yml	/^      source:$/;"	function	line:169
+type	/home/scarlett/vlc3/spec/metadata.yml	/^        type: git$/;"	function	line:170
+url	/home/scarlett/vlc3/spec/metadata.yml	/^        url: git:\/\/git.videolan.org\/vlc.git$/;"	function	line:171
+Recipe	/home/scarlett/vlc3/libs/recipe.rb	/^class Recipe$/;"	class	line:25
+initialize	/home/scarlett/vlc3/libs/recipe.rb	/^  def initialize(args = {})$/;"	method	line:41	class:Recipe
+clean_workspace	/home/scarlett/vlc3/libs/recipe.rb	/^  def clean_workspace(args = {})$/;"	method	line:50	class:Recipe
+install_packages	/home/scarlett/vlc3/libs/recipe.rb	/^  def install_packages(args = {})$/;"	method	line:57	class:Recipe
+get_git_version	/home/scarlett/vlc3/libs/recipe.rb	/^  def get_git_version(args = {})$/;"	method	line:69	class:Recipe
+gather_integration	/home/scarlett/vlc3/libs/recipe.rb	/^    def gather_integration(args = {})$/;"	method	line:76
+copy_icon	/home/scarlett/vlc3/libs/recipe.rb	/^  def copy_icon(args = {})$/;"	method	line:89
+run_integration	/home/scarlett/vlc3/libs/recipe.rb	/^  def run_integration()$/;"	method	line:99
+copy_dependencies	/home/scarlett/vlc3/libs/recipe.rb	/^  def copy_dependencies(args = {})$/;"	method	line:114
+copy_libs	/home/scarlett/vlc3/libs/recipe.rb	/^  def copy_libs(args = {})$/;"	method	line:127
+move_lib	/home/scarlett/vlc3/libs/recipe.rb	/^    def move_lib(args = {})$/;"	method	line:134
+delete_blacklisted	/home/scarlett/vlc3/libs/recipe.rb	/^  def delete_blacklisted(args = {})$/;"	method	line:141
+generate_appimage	/home/scarlett/vlc3/libs/recipe.rb	/^  def generate_appimage(args = {})$/;"	method	line:148
+render	/home/scarlett/vlc3/libs/recipe.rb	/^  def render$/;"	method	line:156
