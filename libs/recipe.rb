@@ -55,14 +55,15 @@ class Recipe
   end
 
   def install_packages(args = {})
+    ENV['DEBIAN_FRONTEND']='noninteractive'
+    ENV.fetch('DEBIAN_FRONTEND')
     self.packages = args[:packages].to_s.gsub(/\,|\[|\]/, '')
     # system('sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test')
     # system('sudo apt-get update')
     # system('sudo apt-get -y install  gcc-6 g++-6')
     # system('sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 60 --slave /usr/bin/g++ g++ /usr/bin/g++-6')
     system('sudo apt-get update && sudo apt-get -y upgrade')
-    system("sudo apt-get -y install git wget #{packages}")
-    system('sudo apt-get -y remove cmake')
+    system("export DEBIAN_FRONTEND=noninteractive && sudo apt-get -y install git wget #{packages}")
     $?.exitstatus
   end
 

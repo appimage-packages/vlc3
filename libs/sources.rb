@@ -77,18 +77,31 @@ class Sources
   end
 
   def run_build(name, buildsystem, options)
-    system("/bin/bash -xe /in/functions/env.sh")
     ENV['PATH'] = '/app/usr/bin:/app/vlc/extras/tools/build/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
     ENV['LD_LIBRARY_PATH'] = '/app/usr/lib:/app/usr/lib/x86_64-linux-gnu:/app/vlc/extras/tools/build/lib:/app/usr/lib/Qt-5.7.0:/usr/lib64:/usr/lib:/lib:/lib64'
+    ENV['CFLAGS']="-g -O2 -fPIC"
+    ENV['PKG_CONFIG_PATH']='/app/usr/lib/x86_64-linux-gnu/pkgconfig:/app/usr/lib/pkgconfig:/app/usr/share/pkgconfig:/app/src/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/x86_64-linux-gnu/pkgconfig:/usr/lib/pkgconfig:/vlc/contrib/x86_64-linux-gnu/lib/pkgconfig:/usr/share/pkgconfig'
+    ENV['ACLOCAL_PATH']='/app/usr/share/aclocal:/usr/share/aclocal'
+    ENV['CPLUS_INCLUDE_PATH']='/app/usr/include:/opt/usr/include:/usr/include'
     ENV.fetch('PATH')
+    ENV.fetch('LD_LIBRARY_PATH')
+    ENV.fetch('CFLAGS')
+    ENV.fetch('PKG_CONFIG_PATH')
+    ENV.fetch('ACLOCAL_PATH')
+    ENV.fetch('CPLUS_INCLUDE_PATH')
     case "#{buildsystem}"
     when 'make'
       Dir.chdir("/app/src/#{name}") do
         p ENV['PATH']
         p ENV['LD_LIBRARY_PATH']
         p "running ./configure --prefix=/app/usr #{options}"
-        system("./configure --prefix=/app/usr #{options}")
-        system('make -j 1 && sudo make install prefix=/app/usr')
+        unless "#{options}".empty? == false
+          system("autoreconf --force --install && ./configure --prefix=/app/usr #{options}")
+        end
+        if "#{options}".empty? == false
+          system("#{options}")
+        end
+        system('make -j 8 && sudo make install prefix=/app/usr')
       end
     when 'cmake'
       Dir.chdir("/app/src/#{name}") do
@@ -126,6 +139,9 @@ class Sources
         p ENV['PATH']
         p ENV['LD_LIBRARY_PATH']
         system("./bootstrap #{options}")
+        if File.exist?('configure')
+          system("./configure #{options}")
+        end
         system('make -j 8 && sudo make install')
       end
     else

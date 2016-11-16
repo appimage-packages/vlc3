@@ -31,7 +31,6 @@ describe Recipe do
   describe "#initialize" do
     it "Sets the application name" do
       expect(app.name).to eq metadata['name']
-      expect(metadata['dependencies'][0].key?('appimage')).to be(true), "The first must be appimage and it cannot be ommited"
     end
   end
 
@@ -64,7 +63,7 @@ describe Recipe do
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
         unless "#{name}" == 'cpan'
-          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wront with source retrieval"
+          expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
         end
         expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
       end
