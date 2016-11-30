@@ -112,7 +112,7 @@ dependencies:
       build:
         buildsystem: make
         autoreconf: false
-        buildoptions: './configure --prefix=/app/usr '
+        buildoptions: ''
       depname: autoconf-2.69
       source:
         type: xz
