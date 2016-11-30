@@ -63,6 +63,7 @@ describe Recipe do
         buildsystem = dep.values[0]['build'].values_at('buildsystem').to_s.gsub(/\,|\[|\]|\"/, '')
         options = dep.values[0]['build'].values_at('buildoptions').to_s.gsub(/\,|\[|\]|\"/, '')
         autoreconf = dep.values[0]['build'].values_at('autoreconf').to_s.gsub(/\,|\[|\]|\"/, '')
+        insource = dep.values[0]['build'].values_at('insource').to_s.gsub(/\,|\[|\]|\"/, '')
         expect(sources.get_source(name, type, url)).to be(0), " Expected 0 exit Status"
         unless name == 'cpan'
           expect(Dir.exist?("/app/src/#{name}")).to be(true), "#{name} directory does not exist, something went wrong with source retrieval"
@@ -71,7 +72,7 @@ describe Recipe do
           expect(sources.run_build(name, buildsystem, options)).to be(0), " Expected 0 exit Status"
         end
         if buildsystem == 'make'
-          expect(sources.run_build(name, buildsystem, options, autoreconf)).to be(0), " Expected 0 exit Status"
+          expect(sources.run_build(name, buildsystem, options, autoreconf, insource)).to be(0), " Expected 0 exit Status"
         end
       end
     end
@@ -150,7 +151,7 @@ describe Recipe do
       p appfullname
       File.write('/in/Recipe', app.render)
       expect(app.generate_appimage()).to eq 0
-      expect(File.exist?("/appimage/vlc-*.AppImage")).to be(true), "Something went wrong, no AppImage"
+      expect(File.exist?("/appimage/vlc-1.0-x86_64.AppImage")).to be(true), "Something went wrong, no AppImage"
       `rm -rfv /app/*`
       `rm -f functions.sh`
       expect(Dir["/app/*"].empty?).to be(true), "Please clean up"
