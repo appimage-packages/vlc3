@@ -111,6 +111,7 @@ dependencies:
   - autoconf:
       build:
         buildsystem: make
+        autoreconf: false
         buildoptions: './configure --prefix=/app/usr '
       depname: autoconf-2.69
       source:
@@ -119,7 +120,8 @@ dependencies:
   - automake:
       build:
         buildsystem: make
-        buildoptions: './configure --prefix=/app/usr '
+        autoreconf: true
+        buildoptions: ''
       depname: automake-1.14
       source:
         type: xz
@@ -127,6 +129,7 @@ dependencies:
   - m4:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: m4-1.4.17
       source:
@@ -135,6 +138,7 @@ dependencies:
   - util-macros:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: util-macros-1.19.0
       source:
@@ -143,7 +147,8 @@ dependencies:
   - libtool:
       build:
         buildsystem: make
-        buildoptions: './configure --prefix=/app/usr '
+        autoreconf: true
+        buildoptions: ''
       depname: libtool-2.4.6
       source:
         type: gz
@@ -151,59 +156,21 @@ dependencies:
   - gettext:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: gettext-0.19.7
       source:
         type: gz
         url: ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
-  - cmake:
-      build:
-        buildsystem: make
-        buildoptions: './configure --prefix=/app/usr'
-      depname: CMake
-      source:
-        type: git
-        url: https://github.com/Kitware/CMake
   - yasm:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: yasm-1.3.0
       source:
         type: gz
         url: http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
-  - appimage:
-      build:
-        buildsystem: custom
-        buildoptions: /in/functions/build_appimage.sh
-      depname: AppImageKit
-      source:
-        type: git
-        url: https://github.com/probonopd/AppImageKit
-  - qt5:
-      build:
-        buildsystem: custom
-        buildoptions: ./configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /app/usr && make && make install
-      depname: qt-everywhere-opensource-src-5.7.0
-      source:
-        type: xz
-        url: http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.xz
-  - linuxdeployqt:
-      build:
-        buildsystem: qmake
-        buildoptions: linuxdeployqt.pro
-      depname: linuxdeployqt
-      source:
-        type: git
-        url: https://github.com/probonopd/linuxdeployqt.git
-  - patchelf:
-      build:
-        buildsystem: make
-        buildoptions: ''
-      depname: patchelf-0.9
-      source:
-        type: bz2
-        url: https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
   - cpan:
       build:
         buildsystem: custom
@@ -215,6 +182,7 @@ dependencies:
   - python3:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: Python-3.5.2
       source:
@@ -231,6 +199,7 @@ dependencies:
   - libpng:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: libpng-1.6.26
       source:
@@ -239,7 +208,8 @@ dependencies:
   - zlib:
       build:
         buildsystem: make
-        buildoptions: './configure --prefix=/app/usr'
+        autoreconf: true
+        buildoptions: ''
       depname: zlib-1.2.8
       source:
         type: gz
@@ -247,6 +217,7 @@ dependencies:
   - fontconfig:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: fontconfig-2.12.1
       source:
@@ -255,7 +226,8 @@ dependencies:
   - libffi:
       build:
         buildsystem: make
-        buildoptions: './configure --prefix=/app/usr'
+        autoreconf: false
+        buildoptions: ''
       depname: libffi-3.0.13
       source:
         type: gz
@@ -263,6 +235,7 @@ dependencies:
   - glib:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: glib-2.38.2
       source:
@@ -271,6 +244,7 @@ dependencies:
   - harfbuzz:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: harfbuzz-1.3.2
       source:
@@ -279,6 +253,7 @@ dependencies:
   - freetype:
       build:
         buildsystem: make
+        autoreconf: true
         buildoptions: ''
       depname: freetype-2.7
       source:
