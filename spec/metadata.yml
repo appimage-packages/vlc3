@@ -111,6 +111,7 @@ dependencies:
   - autoconf:
       build:
         buildsystem: make
+        insource: false
         autoreconf: false
         buildoptions: ''
       depname: autoconf-2.69
@@ -120,6 +121,7 @@ dependencies:
   - automake:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: automake-1.14
@@ -129,6 +131,7 @@ dependencies:
   - m4:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: m4-1.4.17
@@ -138,6 +141,7 @@ dependencies:
   - util-macros:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: util-macros-1.19.0
@@ -147,6 +151,7 @@ dependencies:
   - libtool:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: libtool-2.4.6
@@ -156,6 +161,7 @@ dependencies:
   - gettext:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: gettext-0.19.7
@@ -165,6 +171,7 @@ dependencies:
   - yasm:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: yasm-1.3.0
@@ -174,6 +181,7 @@ dependencies:
   - cpan:
       build:
         buildsystem: custom
+        insource: false
         buildoptions: cpan URI::Escape
       depname: cpan
       source:
@@ -182,6 +190,7 @@ dependencies:
   - python3:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: Python-3.5.2
@@ -191,6 +200,7 @@ dependencies:
   - vlc-tools:
       build:
         buildsystem: custom
+        insource: false
         buildoptions: cd /app/src/vlc/extras/tools/ && ./bootstrap &&  make -j 8
       depname: vlc
       source:
@@ -199,6 +209,7 @@ dependencies:
   - libpng:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: libpng-1.6.26
@@ -208,6 +219,7 @@ dependencies:
   - zlib:
       build:
         buildsystem: make
+        insource: true
         autoreconf: false
         buildoptions: ''
       depname: zlib-1.2.8
@@ -217,6 +229,7 @@ dependencies:
   - fontconfig:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: fontconfig-2.12.1
@@ -226,6 +239,7 @@ dependencies:
   - libffi:
       build:
         buildsystem: make
+        insource: false
         autoreconf: false
         buildoptions: ''
       depname: libffi-3.0.13
@@ -235,6 +249,7 @@ dependencies:
   - glib:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: glib-2.38.2
@@ -244,6 +259,7 @@ dependencies:
   - harfbuzz:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: harfbuzz-1.3.2
@@ -253,6 +269,7 @@ dependencies:
   - freetype:
       build:
         buildsystem: make
+        insource: false
         autoreconf: true
         buildoptions: ''
       depname: freetype-2.7
@@ -278,6 +295,7 @@ dependencies:
   - vlc-contribs:
       build:
         buildsystem: custom
+        insource: false
         buildoptions: sh /in/functions/build_contribs.sh
       depname: vlc
       source:
