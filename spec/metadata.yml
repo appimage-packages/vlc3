@@ -97,6 +97,7 @@ packages:
   - libssh2-1-dev
   - libnfs-dev
   - libebml-dev
+  - zlib1g-dev
 frameworks:
   build_kf5: false
   frameworks:
@@ -216,16 +217,16 @@ dependencies:
       source:
         type: xz
         url: http://downloads.sourceforge.net/libpng/libpng-1.6.26.tar.xz
-  - zlib:
-      build:
-        buildsystem: make
-        insource: true
-        autoreconf: false
-        buildoptions: ''
-      depname: zlib-1.2.8
-      source:
-        type: gz
-        url: http://zlib.net/zlib-1.2.8.tar.gz
+  # - zlib:
+  #     build:
+  #       buildsystem: make
+  #       insource: true
+  #       autoreconf: false
+  #       buildoptions: ''
+  #     depname: zlib-1.2.8
+  #     source:
+  #       type: gz
+  #       url: http://zlib.net/zlib-1.2.8.tar.gz
   - fontconfig:
       build:
         buildsystem: make
