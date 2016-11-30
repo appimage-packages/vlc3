@@ -208,7 +208,7 @@ dependencies:
   - zlib:
       build:
         buildsystem: make
-        autoreconf: true
+        autoreconf: false
         buildoptions: ''
       depname: zlib-1.2.8
       source:
