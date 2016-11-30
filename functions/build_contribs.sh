@@ -18,6 +18,6 @@ export CPLUS_INCLUDE_PATH=/app/usr/include:/opt/usr/include:/usr/include:$CPLUS_
 cd /app/src/vlc/contrib
 mkdir native
 cd native
-../bootstrap --prefix=/app/usr --disable-bluray --disable-util-macros
+../bootstrap --prefix=/app/usr --disable-bluray --disable-util-macros --disable-qt
 autoreconf --force --install && ./configure --prefix=/app/usr
 make -j 8

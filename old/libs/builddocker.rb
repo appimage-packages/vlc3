@@ -31,6 +31,7 @@ class CI
       @c = ''
       @binds = ''
       @name = name
+      @cmd
     end
   end
   def init_logging

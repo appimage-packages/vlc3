@@ -13,22 +13,12 @@
 # This library is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
+# Lesser General Public License fo-r more details.
 #
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+export PATH=/opt/usr/bin:/home/jenkins/.rbenv/bin:/home/jenkins/.rbenv/shims:$PATH
+export WORKSPACE=`pwd`
+echo $WORKSPACE
 
-# Set variables
-VERSION=1.0.1-1
-ARCH=x86_64
-
-APP=xdgurl
-
-cd //xdgurl.AppDir
-export LD_LIBRARY_PATH=./usr/lib/:$LD_LIBRARY_PATH
-find //xdgurl.AppDir/usr/lib/ -name '*.la' | xargs -i rm {}
-
-mv ./usr/share/tcltk/tcl8.6 ./usr/lib/tcl8.6
-mv ./usr/share/tcltk/tk8.6 ./usr/lib/tk8.6
-
-./AppImageAssistant /xdgurl.AppDir "/out/$APP-$VERSION-$ARCH.AppImage"
+cd /in && bundle install && rspec spec/recipe_rspec.rb --fail-fast

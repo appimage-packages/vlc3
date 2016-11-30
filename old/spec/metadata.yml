@@ -1,0 +1,310 @@
+name: vlc
+packages:
+  - build-essential
+  - libgl1-mesa-dev
+  - software-properties-common
+  - zsync
+  - libxcb-xfixes0-dev
+  - autotools-dev
+  - libdbus-1-3
+  - libdbus-1-dev
+  - libxcb1
+  - libxcb1-dev
+  - libx11-xcb1
+  - libx11-xcb-dev
+  - libxcb-composite0-dev
+  - libxcb-keysyms1
+  - libxcb-keysyms1-dev
+  - libxcb-image0
+  - libxcb-image0-dev
+  - libxcb-shm0
+  - libxcb-shm0-dev
+  - libxcb-icccm4
+  - libxcb-icccm4-dev
+  - libxcb-sync-dev
+  - libxcb-xfixes0-dev
+  - libxcb-render-util0
+  - libxcb-render-util0-dev
+  - libxcb-shape0-dev
+  - libxcb-xfixes0-dev
+  - libxcb-randr0-dev
+  - libxrender-dev
+  - libssl-dev
+  - libudev-dev
+  - libwayland0
+  - libxkbcommon-dev
+  - libxkbcommon0
+  - libgl1-mesa-dev
+  - libgles2-mesa-dev
+  - libglib2.0-dev
+  - libglu1-mesa-dev
+  - libicu-dev
+  - pkg-config
+  - libatspi2.0-dev
+  - libcups2-dev
+  - libgtk2.0-dev
+  - libmtdev-dev
+  - unixodbc-dev
+  - freetds-dev
+  - libmysqlclient-dev
+  - libxkbfile-dev
+  - libsqlite3-dev
+  - libharfbuzz-dev
+  - libxkbcommon-x11-dev
+  - libasound2-dev
+  - libgstreamer-plugins-base1.0-dev
+  - libgstreamer1.0-dev
+  - libts-dev
+  - libpulse-dev
+  - libproxy-dev
+  - libxss-dev
+  - libsnappy-dev
+  - libsrtp0-dev
+  - libflac++-dev
+  - libopus-dev
+  - libspeex-dev
+  - libjsoncpp-dev
+  - libvpx-dev
+  - re2c
+  - libevent-dev
+  - libopenal-dev
+  - libpq-dev
+  - libsystemd-journal-dev
+  - libxcb-xinerama0-dev
+  - docbook-xml
+  - docbook-xsl
+  - libappstream-dev
+  - libncurses5-dev
+  - flex
+  - bison
+  - m4
+  - libssl1.0.0
+  - libssl-dev
+  - libvorbis-dev
+  - libevent-pthreads-2.0-5
+  - libxau-dev
+  - texinfo
+  - liblua5.2-dev
+  - lua5.2
+  - liba52-0.7.4-dev
+  - libdca-dev
+  - libarchive-dev
+  - libzvbi-dev
+  - libvncserver-dev
+  - libcddb2-dev
+  - libdvdnav-dev
+  - libdvbpsi-dev
+  - libssh2-1-dev
+  - libnfs-dev
+  - libebml-dev
+frameworks:
+  build_kf5: false
+  frameworks:
+type: git
+url: "git://git.videolan.org/vlc.git"
+buildsystem: custom
+buildoptions: "sh /in/functions/build_vlc.sh"
+dep_path:
+  - /usr/lib/python2*
+  - /usr/bin/python*
+dependencies:
+  - autoconf:
+      build:
+        buildsystem: make
+        buildoptions: './configure --prefix=/app/usr '
+      depname: autoconf-2.69
+      source:
+        type: xz
+        url: http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz
+  - automake:
+      build:
+        buildsystem: make
+        buildoptions: './configure --prefix=/app/usr '
+      depname: automake-1.14
+      source:
+        type: xz
+        url:  ftp://ftp.gnu.org/gnu/automake/automake-1.14.tar.xz
+  - m4:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: m4-1.4.17
+      source:
+        type: xz
+        url: ftp://mirrors.kernel.org/gnu/m4/m4-1.4.17.tar.xz
+  - util-macros:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: util-macros-1.19.0
+      source:
+        type: bz2
+        url: http://ftp.x.org/pub/individual/util/util-macros-1.19.0.tar.bz2
+  - libtool:
+      build:
+        buildsystem: make
+        buildoptions: './configure --prefix=/app/usr '
+      depname: libtool-2.4.6
+      source:
+        type: gz
+        url: http://ftpmirror.gnu.org/libtool/libtool-2.4.6.tar.gz
+  - gettext:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: gettext-0.19.7
+      source:
+        type: gz
+        url: ftp://ftp.gnu.org/gnu/gettext/gettext-0.19.7.tar.gz
+  - cmake:
+      build:
+        buildsystem: make
+        buildoptions: './configure --prefix=/app/usr'
+      depname: CMake
+      source:
+        type: git
+        url: https://github.com/Kitware/CMake
+  - yasm:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: yasm-1.3.0
+      source:
+        type: gz
+        url: http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+  - appimage:
+      build:
+        buildsystem: custom
+        buildoptions: /in/functions/build_appimage.sh
+      depname: AppImageKit
+      source:
+        type: git
+        url: https://github.com/probonopd/AppImageKit
+  - qt5:
+      build:
+        buildsystem: custom
+        buildoptions: ./configure -v -release -opensource -confirm-license -no-sql-sqlite -no-gif -qt-libjpeg -skip qt3d -no-qml-debug -no-sql-odbc -qt-xcb -no-compile-examples -nomake examples -prefix /app/usr && make && make install
+      depname: qt-everywhere-opensource-src-5.7.0
+      source:
+        type: xz
+        url: http://download.qt.io/archive/qt/5.7/5.7.0/single/qt-everywhere-opensource-src-5.7.0.tar.xz
+  - linuxdeployqt:
+      build:
+        buildsystem: qmake
+        buildoptions: linuxdeployqt.pro
+      depname: linuxdeployqt
+      source:
+        type: git
+        url: https://github.com/probonopd/linuxdeployqt.git
+  - patchelf:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: patchelf-0.9
+      source:
+        type: bz2
+        url: https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2
+  - cpan:
+      build:
+        buildsystem: custom
+        buildoptions: cpan URI::Escape
+      depname: cpan
+      source:
+        type: none
+        url: ''
+  - python3:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: Python-3.5.2
+      source:
+        type: xz
+        url: https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tar.xz
+  - vlc-tools:
+      build:
+        buildsystem: custom
+        buildoptions: cd /app/src/vlc/extras/tools/ && ./bootstrap &&  make -j 8
+      depname: vlc
+      source:
+        type: git
+        url: git://git.videolan.org/vlc.git
+  - libpng:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: libpng-1.6.26
+      source:
+        type: xz
+        url: http://downloads.sourceforge.net/libpng/libpng-1.6.26.tar.xz
+  - zlib:
+      build:
+        buildsystem: make
+        buildoptions: './configure --prefix=/app/usr'
+      depname: zlib-1.2.8
+      source:
+        type: gz
+        url: http://zlib.net/zlib-1.2.8.tar.gz
+  - fontconfig:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: fontconfig-2.12.1
+      source:
+        type: bz2
+        url: http://www.freedesktop.org/software/fontconfig/release/fontconfig-2.12.1.tar.bz2
+  - libffi:
+      build:
+        buildsystem: make
+        buildoptions: './configure --prefix=/app/usr'
+      depname: libffi-3.0.13
+      source:
+        type: gz
+        url: ftp://sourceware.org/pub/libffi/libffi-3.0.13.tar.gz
+  - glib:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: glib-2.38.2
+      source:
+        type: xz
+        url: http://ftp.gnome.org/pub/gnome/sources/glib/2.38/glib-2.38.2.tar.xz
+  - harfbuzz:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: harfbuzz-1.3.2
+      source:
+        type: bz2
+        url: http://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.3.2.tar.bz2
+  - freetype:
+      build:
+        buildsystem: make
+        buildoptions: ''
+      depname: freetype-2.7
+      source:
+        type: bz2
+        url:  http://downloads.sourceforge.net/freetype/freetype-2.7.tar.bz2
+  # - liba52:
+  #     build:
+  #       buildsystem: make
+  #       buildoptions: '--mandir=/usr/share/man --enable-shared --disable-static'
+  #     depname: a52dec-0.7.4
+  #     source:
+  #       type: gz
+  #       url: http://liba52.sourceforge.net/files/a52dec-0.7.4.tar.gz
+  # - aribb24:
+  #     build:
+  #       buildsystem: custom
+  #       buildoptions: './bootstrap && autoreconf --install --force && ./configure --prefix=/app/usr --enable-shared --disable-static && make install'
+  #     depname: aribb24
+  #     source:
+  #       type: git
+  #       url: https://github.com/nkoriyama/aribb24
+  - vlc-contribs:
+      build:
+        buildsystem: custom
+        buildoptions: sh /in/functions/build_contribs.sh
+      depname: vlc
+      source:
+        type: git
+        url: git://git.videolan.org/vlc.git
