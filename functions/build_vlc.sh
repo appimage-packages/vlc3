@@ -12,6 +12,10 @@ export ACLOCAL_PATH=/usr/share/aclocal:$ACLOCAL_PATH
 export LIBTOOL=/app/usr/bin/libtool
 export CPLUS_INCLUDE_PATH=/app/usr/include:/opt/usr/include:/usr/include:$CPLUS_INCLUDE_PATH
 
+update-alternatives --config gcc
+
+gcc --version
+
 cd /app/src/vlc
 ./bootstrap
 ./configure --disable-chromaprint --disable-bluray --enable-alsa=true --enable-pulse --disable-chromecast \
