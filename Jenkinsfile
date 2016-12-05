@@ -24,7 +24,7 @@ node('linux') {
 
 
     currentBuild.result = "SUCCESS"
-    properties([pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('H/15 * * * *')])])
+    step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'appimage-template/parser.rules', showGraphs: true, unstableOnWarning: true, useProjectRule: true])
 
     try {
 
@@ -42,9 +42,13 @@ node('linux') {
             sh 'bundle exec deploy.rb'
        }
         stage('Copy Artifacts') {
-            step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'ds9-apps', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: true, \
+            step([$class: 'S3CopyArtifact', buildSelector: [$class: 'StatusBuildSelector', stable: false], excludeFilter: '', filter: 'appimage/*', flatten: false, optional: false, projectName: '${JOB_NAME}', target: ''])
+            step([$class: 'S3BucketPublisher', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'ds9-apps', excludedFile: '', flatten: true, gzipFiles: false, keepForever: false, managedArtifacts: true, noUploadOnFailure: true, \
             selectedRegion: 'eu-central-1', showDirectlyInBrowser: true, sourceFile: 'appimage/*', storageClass: 'STANDARD', uploadFromSlave: true, useServerSideEncryption: false]], profileName: 'ds9-apps', userMetadata: []])
        }
+        stage('Tests') {
+            step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'appimage-template/parser.rules', showGraphs: true, unstableOnWarning: true, useProjectRule: true])
+      }
    }
 
 
