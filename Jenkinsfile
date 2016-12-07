@@ -30,7 +30,7 @@ node('linux') {
 
         stage( 'Checkout' ) {
             checkout scm
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
+            checkout poll: false, ([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'appimage-template'], [$class: 'IgnoreNotifyCommit']], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/appimage-packages/appimage-template']]])
             checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, \
             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'vlc']], submoduleCfg: [], userRemoteConfigs: [[url: 'git://git.videolan.org/vlc.git']]])

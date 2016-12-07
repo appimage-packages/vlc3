@@ -1,4 +1,4 @@
-#kstars
+#VLC3
 
 [![Build Status](http://aci.pangea.pub/job/pipeline-vlc3-appimage/job/master/badge/icon)](http://aci.pangea.pub/job/pipeline-vlc3-appimage/job/master/)
 
